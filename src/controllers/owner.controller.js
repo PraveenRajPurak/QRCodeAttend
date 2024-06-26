@@ -15,17 +15,17 @@ const generateAccessandRefreshToken = async(userId) => {
           throw new ApiError(404, "User not found");
       }
   
-      const accessToken = owner.generateAccessToken();
+      const owneraccessToken = owner.generateAccessToken();
   
-      const refreshToken = owner.generateRefreshToken();
+      const ownerrefreshToken = owner.generateRefreshToken();
   
-      console.log("Access Token: ", accessToken);
-      console.log("Refresh Token: ", refreshToken);
+      console.log("Access Token: ", owneraccessToken);
+      console.log("Refresh Token: ", ownerrefreshToken);
   
-      owner.refreshToken = refreshToken;
+      owner.refreshToken = ownerrefreshToken;
       await owner.save({ validateBeforeSave: false });
   
-      return {accessToken, refreshToken};
+      return {owneraccessToken, ownerrefreshToken};
   }
   catch(error){
       throw new ApiError(501, "Token could not be verified due to internal server error", error?.message);
@@ -77,7 +77,7 @@ const loginOwner = asyncHandler(async (req, res) => {
         throw new ApiError(401, "Invalid credentials");
     }
 
-    const {accessToken, refreshToken} = await generateAccessandRefreshToken(owner._id);
+    const {owneraccessToken, ownerrefreshToken} = await generateAccessandRefreshToken(owner._id);
 
     const loggedInOwner = await Owner.findById(owner._id).select("-password -refreshToken");
 
@@ -88,11 +88,89 @@ const loginOwner = asyncHandler(async (req, res) => {
 
     return res
     .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
+    .cookie("owneraccessToken", owneraccessToken, options)
+    .cookie("ownerrefreshToken", ownerrefreshToken, options)
     .json(
         new ApiResponse(200, "Owner logged in successfully", loggedInOwner)
     );
 });
 
-export { registerOwner, loginOwner }
+const logoutOwner = asyncHandler(async (req, res) => {
+
+    const options = {
+        secure : true,
+        httpOnly : true,
+    }
+
+    await Owner.findByIdAndUpdate(req.owner._id, {
+            $set : {
+                refreshToken : undefined
+            }
+    },
+    {
+        new : true,
+    })
+
+    return res
+    .status(200)
+    .clearCookie("owneraccessToken", options)
+    .clearCookie("ownerrefreshToken", options)
+    .json(
+        new ApiResponse(200, "Owner logged out successfully")
+    )
+
+});
+
+const handlerefreshToken = asyncHandler(async (req, res) => {
+
+    const refreshToken = req.cookies.ownerrefreshToken || req.body.ownerrefreshToken;
+
+    if(!refreshToken) {
+        throw new ApiError(401, "Invalid Token");
+    }
+
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+    if(!decoded) {
+        throw new ApiError(401, "Invalid Token");
+    }
+
+    const owner = await Owner.findById(decoded._id).select("-password -refreshToken");
+
+    if(!owner) {
+        throw new ApiError(401, "Owner not found");
+    }
+
+
+    const storedRefreshToken = owner.refreshToken;
+
+    if( refreshToken != storedRefreshToken) {
+
+        throw new ApiError(401, "Invalid Token");
+    }
+
+    const {owneraccessToken, newownerrefreshToken} = await generateAccessandRefreshToken(owner._id);
+
+    const options = {
+        secure : true,
+        httpOnly : true,
+    }
+
+    return res
+    .status(200)
+    .cookie("owneraccessToken", owneraccessToken, options)
+    .cookie("ownerrefreshToken", newownerrefreshToken, options)
+    .json(
+        new ApiResponse(200, "Token refreshed successfully")
+    )
+});
+
+const updateDetails = asyncHandler(async (req, res) => {
+
+});
+
+const updatePassword = asyncHandler(async (req, res) => {
+
+});
+
+export { registerOwner, loginOwner, logoutOwner,handlerefreshToken, updateDetails, updatePassword };

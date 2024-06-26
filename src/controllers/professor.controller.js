@@ -16,17 +16,17 @@ const generateAccessandRefreshToken = async(userId) => {
           throw new ApiError(404, "Professor not found");
       }
   
-      const accessToken = professor.generateAccessToken();
+      const profaccessToken = professor.generateAccessToken();
   
-      const refreshToken = professor.generateRefreshToken();
+      const profrefreshToken = professor.generateRefreshToken();
   
-      console.log("Access Token: ", accessToken);
-      console.log("Refresh Token: ", refreshToken);
+      console.log("Access Token: ", profaccessToken);
+      console.log("Refresh Token: ", profrefreshToken);
   
-      professor.refreshToken = refreshToken;
+      professor.refreshToken = profrefreshToken;
       await professor.save({ validateBeforeSave: false });
   
-      return {accessToken, refreshToken};
+      return {profaccessToken, profrefreshToken};
   }
   catch(error){
       throw new ApiError(501, "Token could not be verified due to internal server error", error?.message);
@@ -53,7 +53,7 @@ const loginProfessor = asyncHandler(async (req, res) => {
         throw new ApiError(401, "Invalid credentials");
     }
 
-    const {accessToken, refreshToken} = await generateAccessandRefreshToken(professor._id);
+    const {profaccessToken, profrefreshToken} = await generateAccessandRefreshToken(professor._id);
 
     const loggedInProfessor = await Professor.findById(professor._id).select("-password -refreshToken");
 
@@ -64,11 +64,18 @@ const loginProfessor = asyncHandler(async (req, res) => {
 
     return res
     .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
+    .cookie("profaccessToken", profaccessToken, options)
+    .cookie("profrefreshToken", profrefreshToken, options)
     .json(
         new ApiResponse(200, "Login successful", loggedInProfessor)
     )
 });
 
-export { loginProfessor }
+const logoutProfessor = asyncHandler(async (req, res) => {});
+
+const refreshProfessorToken = asyncHandler(async (req, res) => {});
+
+export { loginProfessor,
+    logoutProfessor,
+    refreshProfessorToken
+ }

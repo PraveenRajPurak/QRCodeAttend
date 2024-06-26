@@ -120,7 +120,100 @@ const loginUser = asyncHandler(async (req, res, next) => {
     )
 });
 
+const logoutUser = asyncHandler(async (req, res) => {
+
+    const options = {
+        secure : true,
+        httpOnly : true,
+    }
+
+    await User.findByIdAndUpdate(req.user._id, {
+            $set : {
+                refreshToken : undefined
+            }
+    },
+    {
+        new : true,
+    })
+
+    return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(
+        new ApiResponse(200, "User logged out successfully")
+    )
+});
+
+const handleuserRefreshToken = asyncHandler(async (req, res) => {
+
+    const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
+
+    if(!refreshToken) {
+        throw new ApiError(401, "Invalid Token");
+    }
+
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+    if(!decoded) {
+        throw new ApiError(401, "Invalid Token");
+    }
+
+    const user = await User.findById(decoded._id).select("-password -refreshToken");
+
+    if(!user) {
+        throw new ApiError(401, "User not found");
+    }
+
+    const storedRefreshToken = user.refreshToken;
+
+    if( refreshToken != storedRefreshToken) {
+
+        throw new ApiError(401, "Invalid Token");
+    }
+
+    const {accessToken, newRefreshToken} = await generateAccessandRefreshToken(user._id);
+
+    const options = {
+        httpOnly: true,
+        secure : true,
+    }
+
+    return res
+    .status(200)
+    .cookie("accessToken", accessToken,
+        options,)
+    .cookie("refreshToken", newRefreshToken,
+        options,)
+    .json(
+        new ApiResponse(200, "Token refreshed successfully")
+    )
+});
+
+const updateDetails = asyncHandler(async (req, res) => {
+
+});
+
+const updatePassword = asyncHandler(async (req, res) => {
+
+});
+
+const updateAvatar = asyncHandler(async (req, res) => {
+
+});
+
+const trackselfAttendance = asyncHandler(async (req, res) => {
+    
+});
+
+
 export {registerUser, 
-    loginUser
+    loginUser,
+    logoutUser,
+    handleuserRefreshToken,
+    updateDetails,
+    updatePassword,
+    updateAvatar,
+    trackselfAttendance
 }
 

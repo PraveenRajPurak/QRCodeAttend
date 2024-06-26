@@ -40,7 +40,7 @@ export const verifyOwnerToken = asyncHandler(async (req, res, next) => {
 
     try {
 
-        const accessToken = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
+        const accessToken = req.cookies?.owneraccessToken || req.header("Authorization")?.replace("Bearer ", "");
 
         if(!accessToken) {
             throw new ApiError(401, "Invalid Token");
@@ -70,7 +70,7 @@ export const verifyOwnerToken = asyncHandler(async (req, res, next) => {
 export const verifyProfessorToken = asyncHandler(async (req, res, next) => {
     
     try {
-        const accessToken = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
+        const accessToken = req.cookies?.profaccessToken || req.header("Authorization")?.replace("Bearer ", "");
 
         if(!accessToken) {
             throw new ApiError(401, "Invalid Token");

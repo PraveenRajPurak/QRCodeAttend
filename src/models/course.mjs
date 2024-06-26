@@ -8,7 +8,8 @@ const couseSchema = new Schema({
     code: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        index: true
     },
     owner: {
         type: Schema.Types.ObjectId,
