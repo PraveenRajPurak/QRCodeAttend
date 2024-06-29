@@ -16,6 +16,10 @@ const couseSchema = new Schema({
         ref: "Owner",
         required: true
     },
+    college: {
+        type : Schema.Types.ObjectId,
+        ref : "College"
+    },
     professor: {
         type: Schema.Types.ObjectId,
         ref: "Professor",

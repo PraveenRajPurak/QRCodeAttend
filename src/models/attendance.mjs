@@ -5,6 +5,10 @@ const attendanceSchema = new Schema({
         type : Schema.Types.ObjectId,
         ref : "Student"
     },
+    course : {
+        type : Schema.Types.ObjectId,
+        ref : "Course"
+    },
     class : {
         type : Schema.Types.ObjectId,
         ref : "Class"
