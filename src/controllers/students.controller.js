@@ -10,15 +10,19 @@ import { Class } from "../models/class.mjs";
 
 const setupStudent = asyncHandler(async (req, res) => {
 
-        const { enrollNo, institute, batch, } = req.body
-        if(!(enrollNo || institute || batch)) {
+        const { enrollNo, institute_name, batch, } = req.body
+        if(!(enrollNo || institute_name || batch)) {
             throw new ApiError(400, "All fields are required");
         }
+
+        const institute = await College.findOne({
+            name: institute_name
+        })
 
         const student = await Student.create({
             user: req.user._id,
             enrollNo,
-            institute,
+            institute: institute._id,
             batch
         })
 

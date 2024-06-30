@@ -12,6 +12,10 @@ const professorSchema = new Schema(
             type: String,
             required: [true, "Password is required"]
         },
+        college : {
+            type : Schema.Types.ObjectId,
+            ref : "College"
+        },
         courses: [
             {
                 type: Schema.Types.ObjectId,

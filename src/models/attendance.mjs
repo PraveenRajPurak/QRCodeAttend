@@ -1,6 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
 const attendanceSchema = new Schema({
+    classcode : {
+        type : String
+    },
     student : {
         type : Schema.Types.ObjectId,
         ref : "Student"

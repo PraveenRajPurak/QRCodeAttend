@@ -35,6 +35,12 @@ const collegeSchema = new Schema({
             type : Schema.Types.ObjectId,
             ref : "Student"
         }
+    ],
+    courses : [
+        {
+            type : Schema.Types.ObjectId,
+            ref : "Course"
+        }
     ]   
 },
     {

@@ -10,7 +10,8 @@ const studentSchema = new Schema({
         required : true
     },
     institute : {
-        type : String,
+        type : Schema.Types.ObjectId,
+        ref : "College",
         required : true
     },
     batch : {

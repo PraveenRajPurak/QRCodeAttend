@@ -2,7 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler";
 import { ApiResponse } from "../utils/ApiResponse";
 import { ApiError } from "../utils/ApiError";
 import { uploadOnCloudinary } from "../utils/cloudinary";
-import { Professor } from "../models/Professor.mjs";
+import { Professor } from "../models/professor.mjs";
 
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";

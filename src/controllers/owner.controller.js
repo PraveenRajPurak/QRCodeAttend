@@ -166,7 +166,7 @@ const handlerefreshToken = asyncHandler(async (req, res) => {
 });
 
 const updateDetails = asyncHandler(async (req, res) => {
-
+    
 });
 
 const updatePassword = asyncHandler(async (req, res) => {
