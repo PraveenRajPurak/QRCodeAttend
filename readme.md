@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Attendance Tracking Web App - README</title>
-</head>
-<body>
 
 <h1>Attendance Tracking Web App</h1>
 
@@ -75,4 +69,4 @@
 <p>For any queries or support, please contact us at support@attendanceapp.com.</p>
 
 </body>
-</html>
+
