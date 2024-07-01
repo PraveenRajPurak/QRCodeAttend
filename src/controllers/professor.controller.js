@@ -3,9 +3,11 @@ import { ApiResponse } from "../utils/ApiResponse";
 import { ApiError } from "../utils/ApiError";
 import { uploadOnCloudinary } from "../utils/cloudinary";
 import { Professor } from "../models/professor.mjs";
+import { Course } from "../models/course.mjs";
 
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import { User } from "../models/user.mjs";
 
 const generateAccessandRefreshToken = async(userId) => {
 
@@ -71,11 +73,103 @@ const loginProfessor = asyncHandler(async (req, res) => {
     )
 });
 
-const logoutProfessor = asyncHandler(async (req, res) => {});
+const logoutProfessor = asyncHandler(async (req, res) => {
 
-const refreshProfessorToken = asyncHandler(async (req, res) => {});
+    const options = {
+        secure : true,
+        httpOnly : true,
+    }
+
+    await Professor.findByIdAndUpdate(req.professor._id, {
+            $set : {
+                refreshToken : undefined
+            }
+    },
+    {
+        new : true,
+    })
+
+    return res
+    .status(200)
+    .clearCookie("profaccessToken", options)
+    .clearCookie("profrefreshToken", options)
+    .json(
+        new ApiResponse(200, "Professor logged out successfully")
+    )
+    
+});
+
+const refreshProfessorToken = asyncHandler(async (req, res) => {
+
+    const refreshToken = req.cookies.profrefreshToken || req.header("Authorization")?.replace("Bearer ", "");
+
+    if(!refreshToken) {
+        throw new ApiError(401, "Invalid Token");
+    }
+
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+    if(!decoded) {
+        throw new ApiError(401, "Invalid Token");
+    }
+
+    const prof = await Professor.findById(decoded._id).select(-"password")
+
+    if(!prof) {
+        throw new ApiError(400, "User not found")
+    }
+
+    const storedRefreshToken = prof.refreshToken
+
+    if(!storedRefreshToken) {
+        throw new ApiError(401, "Invalid Token");
+    }
+
+    if(refreshToken != storedRefreshToken) {
+
+        throw new ApiError(401, "Token Match Failed");
+    }
+
+    const {profaccessToken, newprofrefreshToken} = await generateAccessandRefreshToken(prof._id);
+
+    const options = {
+        secure : true,
+        httpOnly : true,
+    }
+
+    return res
+    .status(200)
+    .cookie("profaccessToken", profaccessToken, options)
+    .cookie("profrefreshToken", newprofrefreshToken, options)
+    .json(
+        new ApiResponse(200, "Professor Token refreshed successfully")
+    )
+});
+
+const coursesTaughtbyProfessor = asyncHandler(async (req, res) => {
+
+    const professor = await Professor.findById(req.professor._id);
+
+    if(!professor) {
+        throw new ApiError(404, "Professor not found");
+    }
+
+    const courses = await Course.find({professor: professor._id});
+
+    if(!courses) {
+        throw new ApiError(404, "Courses not found");
+    }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, "Courses fetched successfully", courses)
+        );
+});
+
 
 export { loginProfessor,
     logoutProfessor,
-    refreshProfessorToken
+    refreshProfessorToken,
+    coursesTaughtbyProfessor,
  }

@@ -163,7 +163,7 @@ const handleuserRefreshToken = asyncHandler(async (req, res) => {
         throw new ApiError(401, "Invalid Token");
     }
 
-    const user = await User.findById(decoded._id).select("-password -refreshToken");
+    const user = await User.findById(decoded._id).select("-password");
 
     if (!user) {
         throw new ApiError(401, "User not found");

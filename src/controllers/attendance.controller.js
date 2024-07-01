@@ -81,14 +81,14 @@ const markAttendance = asyncHandler(async (req, res) => {
 
 });
 
-const getAttendance = asyncHandler(async (req, res) => {
+// const getAttendance = asyncHandler(async (req, res) => {
 
-    const classId = req.params.classId;
+//     const classId = req.params.classId;
     
-});
+// });
 
 export const attendanceController = {
     takeAttendance,
     markAttendance,
-    getAttendance
+    // getAttendance
 }
