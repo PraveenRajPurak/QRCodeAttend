@@ -1,15 +1,19 @@
-import { asyncHandler } from "../utils/asyncHandler";
-import { ApiResponse } from "../utils/ApiResponse";
-import { ApiError } from "../utils/ApiError";
-import { uploadOnCloudinary } from "../utils/cloudinary";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
+import { ApiError } from "../utils/ApiError.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { College } from "../models/college.mjs";
 import { Course } from "../models/course.mjs";
-import { Professor } from "../models/professor.mjs";
+import { Professor } from "../models/professors.mjs";
 import { Class } from "../models/class.mjs";
 import { Student } from "../models/student.mjs";
 
+import mongoose from "mongoose";
+
 const setupCourse = asyncHandler(async (req, res) => {
-    const college = await College.findOne({ owner: req.user._id });
+    const college = await College.findOne({ owner: req.owner._id });
+    
+    console.log("College : ", college)
 
     if (!college) {
         throw new ApiError(404, "College not found");
@@ -17,7 +21,17 @@ const setupCourse = asyncHandler(async (req, res) => {
 
     const { name, code, profId } = req.body;
 
+    console.log("name : ", name)
+    console.log("code : ", code)
+    console.log("profId : ", profId)
+
+    if (!name || !code || !profId) {
+        throw new ApiError(400, "All fields are required");
+    }
+
     const professor = await Professor.findOne({ profId: profId });
+
+    console.log("professor : ", professor)
 
     if (!professor) {
         throw new ApiError(404, "Wrong ProfId provided");
@@ -26,9 +40,9 @@ const setupCourse = asyncHandler(async (req, res) => {
     const courseCreation = await Course.create({
         name,
         code,
-        college: college._id,
-        owner: req.user._id,
-        professor: professor._id
+        college: new mongoose.Types.ObjectId(college._id),
+        owner: new mongoose.Types.ObjectId(req.owner._id),
+        professor: new mongoose.Types.ObjectId(professor._id)
     })
 
     if (!courseCreation) {
@@ -37,10 +51,61 @@ const setupCourse = asyncHandler(async (req, res) => {
 
     professor.courses.push(courseCreation._id)
 
-    await professor.save();
+    await professor.save(
+        {
+            validateBeforeSave : false
+        }
+    );
+
+    college.courses.push(courseCreation._id)
+
+    await college.save({
+        validateBeforeSave : false
+    });
+    
 
     res.status(201).json({ message: "Course created successfully", course: courseCreation });
 });
+
+const enrollInaCourse = asyncHandler (async (req,res) => {
+
+    const {code} = req.body;
+
+    const course = await Course.findOne({code});
+
+    const student = await Student.findOne({user: new mongoose.Types.ObjectId(req.user._id)});
+
+    if(!course) {
+        throw new ApiError(404, "Course not found");
+    }
+
+    course.students.push(new mongoose.Types.ObjectId(student._id));
+    await course.save(
+        {
+            validateBeforeSave : false
+        }
+    );
+
+    student.course.push(new mongoose.Types.ObjectId(course._id));
+    await student.save(
+        {
+            validateBeforeSave : false
+        }
+    );
+
+    const result = await Course.findOne({code}).select("-owner -professor -students -classes");
+
+    if(!result) {
+        throw new ApiError(404, "Course not found");
+    }
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, "Course enrolled successfully", result)
+    );
+
+})
 
 const getClasses = asyncHandler(async (req, res) => {
     const courseId = req.params.courseId;
@@ -66,14 +131,33 @@ const getClasses = asyncHandler(async (req, res) => {
 
 const getstudentsInaCourse = asyncHandler(async (req, res) => {
     const courseId = req.params.courseId;
-
+    console.log("courseId : ", courseId)
     const students = await Student.aggregate([
         {
-            $unwind: "$courses"
+            $unwind: "$course"
         },
         {
             $match: {
-                courses: courseId
+                course: new mongoose.Types.ObjectId(courseId)
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "user",
+                foreignField: "_id",
+                as: "user"
+            }
+        },
+        {
+            $addFields : {
+                name : {$arrayElemAt : ["$user.fullname", 0]},
+            }
+        },
+        {
+            $project: {
+                name : 1,
+                enrollNo : 1,
             }
         }
     ])
@@ -91,11 +175,11 @@ const getstudentsInaCourse = asyncHandler(async (req, res) => {
 
 const getAttendanceRecordInaCourse = asyncHandler(async (req, res) => {
     const courseId = req.params.courseId;
-
+    console.log("Course ID : ", courseId)
     const attendanceRecord = await Course.aggregate([
         {
             $match: {
-                _id: courseId
+                _id: new mongoose.Types.ObjectId(courseId)
             },
         },
         {
@@ -114,7 +198,7 @@ const getAttendanceRecordInaCourse = asyncHandler(async (req, res) => {
                             pipeline: [
                                 {
                                     $match: {
-                                        course: courseId
+                                        course: new mongoose.Types.ObjectId(courseId)
                                     }
                                 }
                             ]
@@ -129,8 +213,9 @@ const getAttendanceRecordInaCourse = asyncHandler(async (req, res) => {
                         $project: {
                             attendanceCount: 1,
                             _id: 0,
-                            name: 1,
+                            fullname: 1,
                             enrollNo: 1,
+                            //attendances : 1
                         }
                     }
                 ]
@@ -145,11 +230,7 @@ const getAttendanceRecordInaCourse = asyncHandler(async (req, res) => {
                 pipeline: [
                     {
                         $match: {
-                            $and: [{
-                                course: courseId
-                            }, {
-                                status: "regular"
-                            }]
+                            status : "Regular"
                         }
                     }
                 ]
@@ -193,10 +274,10 @@ const getAttendanceRecordInaCourse = asyncHandler(async (req, res) => {
 
 });
 
-export const courseController = {
+export {
     setupCourse,
+    enrollInaCourse,
     getClasses,
     getstudentsInaCourse,
     getAttendanceRecordInaCourse
-
 };

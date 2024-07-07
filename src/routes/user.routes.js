@@ -6,7 +6,9 @@ import {
     loginUser,
     logoutUser,
     handleuserRefreshToken,
-    updateDetails,
+    updateName,
+    updatePhoneNumber,
+    updateEmail,
     updatePassword,
     updateAvatar,
     trackselfAttendance
@@ -23,7 +25,11 @@ router.route("/logout").post(verifyUserToken, logoutUser);
 
 router.route("/refreshToken").get(verifyUserToken, handleuserRefreshToken);
 
-router.route("/update-details").post(verifyUserToken, updateDetails);
+router.route("/update-name").post(verifyUserToken, updateName);
+
+router.route("/update-email").post(verifyUserToken, updateEmail);
+
+router.route("/update-phoneNo").post(verifyUserToken, updatePhoneNumber);
 
 router.route("/update-password").post(verifyUserToken, updatePassword);
 

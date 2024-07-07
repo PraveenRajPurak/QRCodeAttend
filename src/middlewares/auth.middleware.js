@@ -4,7 +4,7 @@ import {ApiResponse} from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 import {User} from "../models/user.mjs";
 import {Owner} from "../models/owner.mjs";
-import {Professor} from "../models/Professor.mjs";
+import {Professor} from "../models/professors.mjs";
 
 export const verifyUserToken = asyncHandler(async (req, res, next) => {
 

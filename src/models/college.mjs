@@ -47,4 +47,4 @@ const collegeSchema = new Schema({
         timestamps: true
     });
 
-export const Event = mongoose.model("College", collegeSchema);
+export const College = mongoose.model("College", collegeSchema);

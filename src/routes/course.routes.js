@@ -5,6 +5,7 @@ import { verifyUserToken } from "../middlewares/auth.middleware.js";
 
 import {
     setupCourse,
+    enrollInaCourse,
     getClasses,
     getstudentsInaCourse,
     getAttendanceRecordInaCourse
@@ -13,9 +14,10 @@ import {
 const router = Router();
 
 router.route("/setup-course").post(verifyOwnerToken, setupCourse);
-router.route("/get-classes").get(getClasses);
-router.route("/get-students").get(getstudentsInaCourse);
-router.route("/get-attendance").get(getAttendanceRecordInaCourse);
+router.route("/enroll-in-a-course").post(verifyUserToken, enrollInaCourse);
+router.route("/get-classes/:courseId").get(getClasses);
+router.route("/get-students/:courseId").get(getstudentsInaCourse);
+router.route("/get-attendance/:courseId").get(getAttendanceRecordInaCourse);
 
 export default router;
 

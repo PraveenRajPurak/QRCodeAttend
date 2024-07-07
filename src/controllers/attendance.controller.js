@@ -1,15 +1,16 @@
-import { asyncHandler } from "../utils/asyncHandler";
-import { ApiResponse } from "../utils/ApiResponse";
-import { ApiError } from "../utils/ApiError";
-import { uploadOnCloudinary } from "../utils/cloudinary";
-
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
+import { ApiError } from "../utils/ApiError.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { Attendance } from "../models/attendance.mjs";
 import { Class } from "../models/class.mjs";
 import { Student } from "../models/student.mjs";
+import mongoose from "mongoose";
 
 const takeAttendance = asyncHandler(async (req, res) => {
 
-    const { classId } = req.body;
+    const { classId } = req.params;
+    console.log("Class Id : ",classId)
 
     if (!classId) {
         throw new ApiError(400, "Class id is required");
@@ -17,12 +18,16 @@ const takeAttendance = asyncHandler(async (req, res) => {
 
     const class_ = await Class.findById(classId);
 
+    console.log("Class fetched : ",class_)
+
     if (!class_) {
         throw new ApiError(404, "Class not found");
     }
 
     class_.status = "Regular"
-    await class_.save();
+    await class_.save(
+        { validateBeforeSave: false }
+    );
 
     return res
         .status(200)
@@ -33,17 +38,15 @@ const takeAttendance = asyncHandler(async (req, res) => {
 
 const markAttendance = asyncHandler(async (req, res) => {
 
-    const user = req.user._id
-
     const student = await Student.findOne({
-        user
+        user: new mongoose.Types.ObjectId(req.user._id)
     })
 
     if(!student) {
         throw new ApiError(500, "Student AC details could not be fetched.")
     }
 
-    const { classId } = req.params.classId;
+    const { classId } = req.params;
     const { code } = req.body;
 
     if (!classId) { 
@@ -51,6 +54,8 @@ const markAttendance = asyncHandler(async (req, res) => {
     }
 
     const class_ = await Class.findById(classId);
+
+    console.log("Class : ", class_)
 
     if (!class_) {
         throw new ApiError(404, "Class not found");
@@ -73,6 +78,18 @@ const markAttendance = asyncHandler(async (req, res) => {
         throw new ApiError(500, "Attendance could not be marked.")
     }
 
+    console.log("Attendance : ", attendanceCreation)
+
+    class_.attendances.push(attendanceCreation._id);
+    await class_.save(
+        { validateBeforeSave: false }
+    );
+
+    student.attendanceRecord.push(attendanceCreation._id);
+    await student.save(
+        { validateBeforeSave: false }
+    );
+
     return res
         .status(200)
         .json(
@@ -87,7 +104,7 @@ const markAttendance = asyncHandler(async (req, res) => {
     
 // });
 
-export const attendanceController = {
+export {
     takeAttendance,
     markAttendance,
     // getAttendance

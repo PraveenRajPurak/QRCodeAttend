@@ -9,6 +9,8 @@ import mongoose from "mongoose";
 import { Attendance } from "../models/attendance.mjs";
 import { Student } from "../models/student.mjs";
 
+const generatedCodes = new Set();
+
 function generateUniqueCode() {
     let code;
     do {
@@ -36,7 +38,7 @@ const createClass = asyncHandler(async (req, res) => {
 
     const classCreation = await Class.create({
         code: classCode,
-        course: course._id,
+        course: new mongoose.Types.ObjectId(course._id),
         date,
         startTime,
         endTime
@@ -75,7 +77,7 @@ const getStudentsInaClass = asyncHandler(async (req, res) => {
     },
     {
         $match: {
-            "classes": mongoose.Types.ObjectId(classId)
+            "classes": new mongoose.Types.ObjectId(classId)
         }
     }]);
 
@@ -91,7 +93,7 @@ const getStudentsInaClass = asyncHandler(async (req, res) => {
             ]
         }
     
-    }).select("-password -refreshToken");
+    }).select("-password -refreshToken -course -attendanceRecord");
 
     if(!students) {
         throw new ApiError(404, "Students not found");
@@ -107,12 +109,16 @@ const getStudentsInaClass = asyncHandler(async (req, res) => {
 
 const getAttendanceofaStudent = asyncHandler(async (req, res) => {
 
-    const {classId} = req.params.classId;
-    const {user} = req.user._id;
+    const userId = req.user._id;
+    const classId = req.params.classId;
 
     const student = await Student.findOne({
-        user
+        user: new mongoose.Types.ObjectId(req.user._id)
     })
+
+   // console.log("User : ", req.user._id)
+
+    console.log("Student : ", student)
 
     if(!student) {
         throw new ApiError(500, "Student AC details could not be fetched.")
@@ -121,13 +127,15 @@ const getAttendanceofaStudent = asyncHandler(async (req, res) => {
     const attendanceRecord = await Attendance.findOne({
         $and : [
             {
-                class : mongoose.Types.ObjectId(classId)
+                class : new mongoose.Types.ObjectId(classId)
             },
             {
-                student : mongoose.Types.ObjectId(student._id)
+                student : new mongoose.Types.ObjectId(student._id)
             }
         ]
     }).select ("-password -refreshToken");
+
+    console.log("Attendance Record : ", attendanceRecord)
 
     if(!attendanceRecord) {
         throw new ApiError(404, "Attendance record not found");
@@ -138,6 +146,8 @@ const getAttendanceofaStudent = asyncHandler(async (req, res) => {
     if(attendanceRecord.status === true) {
         attendanceStatus = "Present";
     }
+
+    console.log("Attendance Status : ", attendanceStatus)
 
     return res
         .status(200)
@@ -154,13 +164,32 @@ const getAttendanceRecordFortheClass = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Class id is required");
     }
 
-    const class_ = await Class.findOne({
-        _id: classId
-    })
-
-    const attendances = await Attendance.find({
-        classCode: class_.code
-    })
+    const attendances = await Attendance.aggregate([
+        {
+            $match : {
+                class : new mongoose.Types.ObjectId(classId)
+            }
+        },
+        {
+            $lookup : {
+                from : "students",
+                localField : "student",
+                foreignField : "_id",
+                as : "studentInfo"
+            }
+        },
+        {
+            $addFields : {
+                enrollmentNumber : "$studentInfo.enrollNo"
+            }
+        },
+        {
+            $project : {
+                enrollmentNumber : 1,
+                status : 1
+            }
+        }
+    ])
 
     if(!attendances) {
         throw new ApiError(404, "Attendances not found");
@@ -174,10 +203,9 @@ const getAttendanceRecordFortheClass = asyncHandler(async (req, res) => {
 
  });
 
-export const classController = {
+export {
     createClass,
     getStudentsInaClass,
     getAttendanceRecordFortheClass,
     getAttendanceofaStudent,
-    
 };

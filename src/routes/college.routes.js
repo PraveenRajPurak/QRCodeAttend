@@ -7,14 +7,16 @@ import {
     setupCollege,
     getStudentsRecords,
     getProfessorsRecords,
-    setupProfessor
+    setupProfessor,
+    coursesInaCollege
 } from "../controllers/college.controller.js";
 
 const router = Router();
 
 router.route("/setup-college").post(verifyOwnerToken, setupCollege);
-router.route("/get-students").get(getStudentsRecords);
-router.route("/get-professors").get(verifyOwnerToken, getProfessorsRecords);
+router.route("/get-students/:collegeId").get(verifyOwnerToken, getStudentsRecords);
+router.route("/get-professors/:collegeId").get(verifyOwnerToken, getProfessorsRecords);
 router.route("/setup-professor").post(verifyOwnerToken, setupProfessor);
+router.route("/courses-in-a-college/:collegeId").get(verifyOwnerToken, coursesInaCollege)
 
 export default router;

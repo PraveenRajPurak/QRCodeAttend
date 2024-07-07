@@ -6,17 +6,19 @@ import { verifyUserToken } from "../middlewares/auth.middleware.js";
 import {
     loginProfessor,
     logoutProfessor,
-    handlerefreshToken,
-
+    refreshProfessorToken,
+    coursesTaughtbyProfessor,
 } from "../controllers/professor.controller.js";
 
 const router = Router();
 
 router.route("/login").post(loginProfessor);
 
-router.route("/logout").post(verifyUserToken, logoutProfessor);
+router.route("/logout").post(verifyProfessorToken, logoutProfessor);
 
-router.route("/refreshToken").get(verifyUserToken, handlerefreshToken);
+router.route("/refreshProfessorToken").get(verifyProfessorToken, refreshProfessorToken);
+
+router.route("/courses-taught-by-professor").get(verifyProfessorToken, coursesTaughtbyProfessor);
 
 export default router;
 

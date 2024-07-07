@@ -4,7 +4,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { User } from "../models/user.mjs";
 import { Student } from "../models/student.mjs";
-import { Attendance } from "../models/attendance.mjs;"
+import { Attendance } from "../models/attendance.mjs"
 import { Course } from "../models/course.mjs";
 import { Class } from "../models/class.mjs";
 
@@ -285,6 +285,7 @@ const updatePassword = asyncHandler(async (req, res) => {
 
     const { oldPassword, newPassword } = req.body;
 
+
     if (!oldPassword || !newPassword) {
         throw new ApiError(400, "All fields are required");
     }
@@ -293,6 +294,8 @@ const updatePassword = asyncHandler(async (req, res) => {
     if (!user) {
         throw new ApiError(404, "User not found");
     }
+
+    console.log("User found: ", user);
 
     const passwordMatch = await user.matchPassword(oldPassword);
 

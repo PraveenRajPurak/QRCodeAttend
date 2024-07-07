@@ -4,16 +4,14 @@ import { verifyProfessorToken } from "../middlewares/auth.middleware.js";
 import { verifyUserToken } from "../middlewares/auth.middleware.js";
 
 import {
-    createAttendance,
+    takeAttendance,
     markAttendance,
-    getAttendance,
 } from "../controllers/attendance.controller.js";
 
 const router = Router();
 
-router.route("create-attendance").post(verifyProfessorToken, createAttendance);
-router.route("mark-attendance").post(verifyUserToken, markAttendance);
-router.route("get-attendance").get(getAttendance);
+router.route("/create-attendance/:classId").post(verifyProfessorToken, takeAttendance);
+router.route("/mark-attendance/:classId").post(verifyUserToken, markAttendance);
 
 export default router;
 
