@@ -1,6 +1,6 @@
 import { BsFillShieldLockFill, BsTelephoneFill } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
-import {UserFirebaseapp} from '../config/Userfirebase.config';
+import { UserFirebaseapp } from '../config/Userfirebase.config';
 import { getAuth } from 'firebase/auth';
 const userauth = getAuth(UserFirebaseapp);
 import OtpInput from "otp-input-react";
@@ -9,6 +9,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
+import UserDetailsCollection from "../components/UserDetailsCollection";
 
 function UserSignUp() {
   const [otp, setOtp] = useState("");
@@ -75,13 +76,15 @@ function UserSignUp() {
         <Toaster toastOptions={{ duration: 4000 }} />
         <div id="recaptcha-container"></div>
         {user ? (
-          <h2 className="text-center text-white font-medium text-2xl">
-            👍Login Success
-          </h2>
+          <>
+            <h1> Welcome user</h1>
+            <UserDetailsCollection phoneNumber = {ph}/>
+          </>
+
         ) : (
           <div className="w-80 flex flex-col gap-4 rounded-lg p-4">
             <h1 className="text-center leading-normal text-white font-medium text-3xl mb-6">
-              Welcome User! 
+              Welcome User!
             </h1>
             {showOTP ? (
               <>
@@ -112,6 +115,16 @@ function UserSignUp() {
                   )}
                   <span>Verify OTP</span>
                 </button>
+
+                <p className="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
+                Already have an account?{' '}
+                <a
+                  href="/user-login"
+                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                >
+                  Login
+                </a>
+              </p>
               </>
             ) : (
               <>
@@ -124,7 +137,7 @@ function UserSignUp() {
                 >
                   Verify your phone number
                 </label>
-                <PhoneInput className = "text-black" country={"in"} value={ph} onChange={setPh} />
+                <PhoneInput className="text-black" country={"in"} value={ph} onChange={setPh} />
                 <button
                   onClick={onSignup}
                   className="bg-emerald-600 w-full flex gap-1 items-center justify-center py-2.5 text-white rounded"
@@ -134,6 +147,16 @@ function UserSignUp() {
                   )}
                   <span>Send code via SMS</span>
                 </button>
+                
+                <p className="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
+                Already have an account?{' '}
+                <a
+                  href="/user-login"
+                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                >
+                  Login
+                </a>
+              </p>
               </>
             )}
           </div>

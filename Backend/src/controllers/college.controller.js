@@ -191,10 +191,24 @@ const coursesInaCollege = asyncHandler(async (req, res) => {
         )
 });
 
+const checkCollegeOwnershipPresence = asyncHandler(async (req, res) => {
+
+    const college = await College.findOne({
+        owner: new mongoose.Types.ObjectId(req.owner._id)
+    })
+
+    if(!college) {
+        return res.status(200).json({isPresent: false});
+    }
+
+    return res.status(200).json({isPresent: true});
+})
+
 export {
     setupCollege,
     getStudentsRecords,
     getProfessorsRecords,
     setupProfessor,
-    coursesInaCollege
+    coursesInaCollege,
+    checkCollegeOwnershipPresence
 };

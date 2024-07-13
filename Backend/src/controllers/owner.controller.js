@@ -36,7 +36,7 @@ const registerOwner = asyncHandler(async (req, res, next) => {
 
     const {phoneNumber, email, password, institutionType} = req.body;
 
-    //console.log("Phone number, email, password, institutionType",phoneNumber, email, password, institutionType);
+   console.log("Phone number, email, password, institutionType",phoneNumber, email, password, institutionType);
 
     if(!phoneNumber || !email || !password || !institutionType) {
         throw new ApiError(400, "All fields are required");

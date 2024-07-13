@@ -9,6 +9,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
+import AdminDetailsCollection from "../components/AdminDetailsCollection";
 
 function AdminSignUp() {
   const [otp, setOtp] = useState("");
@@ -75,9 +76,10 @@ function AdminSignUp() {
         <Toaster toastOptions={{ duration: 4000 }} />
         <div id="recaptcha-container"></div>
         {user ? (
-          <h2 className="text-center text-white font-medium text-2xl">
-            👍Login Success
-          </h2>
+          <>
+          <AdminDetailsCollection phoneNumber={ph}/>
+          </>
+          
         ) : (
           <div className="w-80 flex flex-col gap-4 rounded-lg p-4">
             <h1 className="text-center leading-normal text-white font-medium text-3xl mb-6">
@@ -112,6 +114,15 @@ function AdminSignUp() {
                   )}
                   <span>Verify OTP</span>
                 </button>
+                <p className="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
+                Already have an account?{' '}
+                <a
+                  href="/admin-login"
+                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                >
+                  Login
+                </a>
+              </p>
               </>
             ) : (
               <>
@@ -134,6 +145,15 @@ function AdminSignUp() {
                   )}
                   <span>Send code via SMS</span>
                 </button>
+                <p className="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
+                Already have an account?{' '}
+                <a
+                  href="/admin-login"
+                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                >
+                  Login
+                </a>
+              </p>
               </>
             )}
           </div>

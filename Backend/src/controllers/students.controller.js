@@ -8,6 +8,8 @@ import { Course } from "../models/course.mjs";
 import { Class } from "../models/class.mjs";
 import { College } from "../models/college.mjs";
 
+import mongoose from "mongoose";
+
 const setupStudent = asyncHandler(async (req, res) => {
 
         const { enrollNo, institute_name, batch} = req.body
@@ -124,8 +126,22 @@ const getClasses = asyncHandler(async (req, res) => {
 
 });
 
+const checkStudentAccountPresence = asyncHandler(async (req, res) => {
+
+    const student = await Student.findOne({
+        user: new mongoose.Types.ObjectId(req.user._id)
+    })
+
+    if(!student) {
+        return res.status(200).json({isPresent: false});
+    }
+
+    return res.status(200).json({isPresent: true});
+})
+
 export {
     setupStudent,
     getCourses,
-    getClasses
+    getClasses,
+    checkStudentAccountPresence
 }
