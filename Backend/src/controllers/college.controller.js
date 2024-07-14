@@ -204,11 +204,20 @@ const checkCollegeOwnershipPresence = asyncHandler(async (req, res) => {
     return res.status(200).json({isPresent: true});
 })
 
+const getAllCollegeNames = asyncHandler (async (req, res) => {
+    const colleges = await College.find({}).select("name");
+    return res.status(200)
+    .json(
+        new ApiResponse("200", "Colleges fetched successfully",colleges)
+    )
+})
+
 export {
     setupCollege,
     getStudentsRecords,
     getProfessorsRecords,
     setupProfessor,
     coursesInaCollege,
-    checkCollegeOwnershipPresence
+    checkCollegeOwnershipPresence,
+    getAllCollegeNames
 };

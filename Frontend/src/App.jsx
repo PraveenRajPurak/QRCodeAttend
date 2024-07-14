@@ -13,7 +13,8 @@ import UserStudentSetup from './pages/UserStudentSetup'
 import AdminLogin from './pages/AdminLogin'
 import AdminDetailsCollection from './components/AdminDetailsCollection';
 import AdminDashboard from './pages/AdminDashboard';
-import AdminCollegeSetup from './pages/AdminCollegeSetup'
+import AdminCollegeSetup from './pages/AdminCollegeSetup';
+import ProfessorDashboard from './pages/ProfessorDashboard';
 
 function App() {
   return (
@@ -31,6 +32,9 @@ function App() {
         <Route path="/admin-details-collection" element={<AdminDetailsCollection />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/admin-college-setup" element={<AdminCollegeSetup />} />
+        <Route path="/professor-login" element={<ProfessorLogin />}/>
+        <Route path="/professor-dashboard" element={<ProfessorDashboard />}/>
+
         <Route path="/" element={<Frontpage />} />
       </Routes>
     </Router>

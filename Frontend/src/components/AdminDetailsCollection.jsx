@@ -29,7 +29,7 @@ function AdminDetailsCollection({ phoneNumber } ) {
         }
 
         const data = new URLSearchParams();
-        data.append('phoneNumber', phoneNumber||"280934280");
+        data.append('phoneNumber', phoneNumber);
         for (const key in formData) {
             data.append(key, formData[key]);
         }
