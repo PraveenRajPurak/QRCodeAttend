@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  section {
+    padding: 20px;
+    min-height: 100vh;
+  }
+  
+  .course-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .attendance-records {
+    margin-bottom: 20px;
+  }
+  
+  .attendance-records h2 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .attendance-records table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .attendance-records th, .attendance-records td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .attendance-records th {
+    background-color: #525252;
+  }
+  
+  .class-list {
+    margin-bottom: 20px;
+  }
+  
+  .class-list h2 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .class-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .class-button:hover {
+    background-color: #0056b3;
+  }
+  

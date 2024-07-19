@@ -274,10 +274,32 @@ const getAttendanceRecordInaCourse = asyncHandler(async (req, res) => {
 
 });
 
+const getCourseDetails = asyncHandler (async (req, res) => {
+
+    const { courseId } = req.params;
+
+    if(!courseId) {
+        throw new ApiError(400, "Course id is required");
+    }
+
+    const courseDetails = await Course.findById(courseId).select("-students -classes -owner -professor -attendances");
+
+    if(!courseDetails) {
+        throw new ApiError(404, "Course not found");
+    }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, "Course details fetched successfully", courseDetails)
+        );
+})
+
 export {
     setupCourse,
     enrollInaCourse,
     getClasses,
     getstudentsInaCourse,
-    getAttendanceRecordInaCourse
+    getAttendanceRecordInaCourse,
+    getCourseDetails
 };

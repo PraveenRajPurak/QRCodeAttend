@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  section {
+    padding: 20px;
+    min-height: 100vh;
+  }
+  
+  .class-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .qr-section {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-left : 40%
+  }
+  
+  .qr-section p {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right : 70%
+  }
+  
+  .attendance-records {
+    margin-top: 20px;
+  }
+  
+  .attendance-records h2 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .attendance-records table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .attendance-records th, .attendance-records td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .attendance-records th {
+    background-color: #8f8f8f;
+  }
+  

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function Frontpage() {
   return (
-    <section className="flex items-center justify-center h-screen">
+    <section className="flex items-center justify-center h-screen" >
 
       <div style={{ textAlign: 'center', borderWidth: 0.5, borderRadius: "10px", padding: "200px" }}>
 
@@ -17,9 +17,6 @@ function Frontpage() {
           </Link>
           <Link to="/admin-choicer">
             <button style={{ textAlign: 'center', borderWidth: 0.5, borderRadius: "10px", padding: "9px", width: "80px" }}>Admin</button>
-          </Link>
-          <Link to="/admin-details-collection">
-            <button style={{ textAlign: 'center', borderWidth: 0.5, borderRadius: "10px", padding: "9px", width: "80px" }}>Direct Admin Sign up</button>
           </Link>
         </div>
 

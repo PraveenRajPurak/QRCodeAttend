@@ -8,7 +8,8 @@ import {
     enrollInaCourse,
     getClasses,
     getstudentsInaCourse,
-    getAttendanceRecordInaCourse
+    getAttendanceRecordInaCourse,
+    getCourseDetails
 } from "../controllers/course.controller.js";
 
 const router = Router();
@@ -18,6 +19,7 @@ router.route("/enroll-in-a-course").post(verifyUserToken, enrollInaCourse);
 router.route("/get-classes/:courseId").get(getClasses);
 router.route("/get-students/:courseId").get(getstudentsInaCourse);
 router.route("/get-attendance/:courseId").get(getAttendanceRecordInaCourse);
+router.route("/get-course-details/:courseId").get(getCourseDetails);
 
 export default router;
 

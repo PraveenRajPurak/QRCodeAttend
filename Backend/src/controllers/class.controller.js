@@ -158,7 +158,7 @@ const getAttendanceofaStudent = asyncHandler(async (req, res) => {
 
 const getAttendanceRecordFortheClass = asyncHandler(async (req, res) => { 
 
-    const classId = req.params.classId; 
+    const {classId} = req.params; 
 
     if(!classId) {
         throw new ApiError(400, "Class id is required");
@@ -203,9 +203,27 @@ const getAttendanceRecordFortheClass = asyncHandler(async (req, res) => {
 
  });
 
+ const getClassCode = asyncHandler (async (req, res) => {
+
+    const { classId } = req.params;
+
+    const class_code = await Class.findById(classId).select("-attendances -course");
+
+    if(!class_code) {
+        throw new ApiError(404, "Class not found");
+    }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, "Class code fetched successfully", class_code)
+        );
+ })
+
 export {
     createClass,
     getStudentsInaClass,
     getAttendanceRecordFortheClass,
     getAttendanceofaStudent,
+    getClassCode
 };
