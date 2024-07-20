@@ -10,7 +10,8 @@ import {
     setupProfessor,
     coursesInaCollege,
     checkCollegeOwnershipPresence,
-    getAllCollegeNames
+    getAllCollegeNames,
+    getCollege
 } from "../controllers/college.controller.js";
 
 const router = Router();
@@ -22,5 +23,6 @@ router.route("/setup-professor").post(verifyOwnerToken, setupProfessor);
 router.route("/courses-in-a-college/:collegeId").get(verifyOwnerToken, coursesInaCollege);
 router.route("/check-college-ownership-presence").get(verifyOwnerToken, checkCollegeOwnershipPresence);
 router.route("/get-all-college-names").get(verifyOwnerToken, getAllCollegeNames);
+router.route("/get-college").get(verifyOwnerToken, getCollege);
 
 export default router;

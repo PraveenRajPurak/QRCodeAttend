@@ -1,0 +1,55 @@
+.user-dashboard {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .student-details, .courses-list {
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    margin-bottom: 10px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  .enroll-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .enroll-form label {
+    margin-bottom: 5px;
+  }
+  
+  .enroll-form input {
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .enroll-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .enroll-form button:hover {
+    background-color: #0056b3;
+  }
+  

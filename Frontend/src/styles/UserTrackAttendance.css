@@ -1,0 +1,38 @@
+.track-attendance {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .attendance-records {
+    margin-bottom: 20px;
+  }
+  
+  .attendance-record {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #565555;
+  }
+  
+  h1, h2 {
+    margin-bottom: 10px;
+  }
+  
+  p {
+    margin: 5px 0;
+  }
+  
+  button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #757575;
+    color: white;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #77797b;
+  }
+  

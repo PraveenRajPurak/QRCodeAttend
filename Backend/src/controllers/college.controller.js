@@ -169,6 +169,7 @@ const coursesInaCollege = asyncHandler(async (req, res) => {
         },
         {
             $project : {
+                _id : 1,
                 name : 1,
                 code : 1,
                 professors : 1
@@ -212,6 +213,22 @@ const getAllCollegeNames = asyncHandler (async (req, res) => {
     )
 })
 
+const getCollege = asyncHandler (async (req, res) => {
+
+    const college = await College.find(
+        {owner : new mongoose.Types.ObjectId(req.owner._id)}
+    );
+
+    if(!college) {
+        throw new ApiError(404, "College not found");
+    }
+
+    return res.status(200)
+    .json(
+        new ApiResponse("200", "College fetched successfully",college)
+    )
+})
+
 export {
     setupCollege,
     getStudentsRecords,
@@ -219,5 +236,6 @@ export {
     setupProfessor,
     coursesInaCollege,
     checkCollegeOwnershipPresence,
-    getAllCollegeNames
+    getAllCollegeNames,
+    getCollege
 };

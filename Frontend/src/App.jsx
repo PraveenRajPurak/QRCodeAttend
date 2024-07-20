@@ -17,6 +17,12 @@ import AdminCollegeSetup from './pages/AdminCollegeSetup';
 import ProfessorDashboard from './pages/ProfessorDashboard';
 import CourseDetails from './pages/CourseDetails';
 import ProfessorTakeAttendance from './pages/ProfessorTakeAttendance';
+import AdminCourseSetup from './pages/AdminCourseSetup';
+import ClassesSetUp from './pages/ClassesSetup';
+import ProfessorSetup from './pages/AdminProfessorSetup';
+import UserTrackAttendance from './pages/UserTrackAttendance';
+import UserClassTrack from './pages/UserClassTrack';
+import UserAttendance from './pages/UserAttendance';
 
 function App() {
   return (
@@ -38,6 +44,12 @@ function App() {
         <Route path="/professor-dashboard" element={<ProfessorDashboard />}/>
         <Route path="/course-details/:courseId" element={<CourseDetails />} />
         <Route path="/professor-take-attendance/:classId" element={<ProfessorTakeAttendance />} />
+        <Route path="/admin-course-setup/:collegeId" element={<AdminCourseSetup />} />
+        <Route path="/classes-setup/:courseId" element={<ClassesSetUp />} />
+        <Route path="/admin-professor-setup/:collegeId" element={<ProfessorSetup />} />
+        <Route path="/user-track-attendance" element={<UserTrackAttendance />} />
+        <Route path="/user-class-track/:courseId" element={<UserClassTrack />} />
+        <Route path="/user-attendance/:classId" element={<UserAttendance />} />
 
         <Route path="/" element={<Frontpage />} />
       </Routes>

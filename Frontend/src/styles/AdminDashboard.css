@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  section {
+    padding: 20px;
+    min-height: 100vh;
+  }
+  
+  .college-details {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .college-details a {
+    color: blue;
+    text-decoration: underline;
+  }
+  
+  .professor-records, .course-records {
+    margin-top: 20px;
+  }
+  
+  .professor-records h2, .course-records h2 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .professor-records table, .course-records table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .professor-records th, .professor-records td, .course-records th, .course-records td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .professor-records th, .course-records th {
+    background-color: #f2f2f2;
+  }
+  
+  button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  

@@ -1,0 +1,116 @@
+
+  
+  /* Course details container */
+  .course-details {
+    margin-bottom: 30px;
+  }
+  
+  .course-details h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #f7eeee;
+  }
+  
+  .course-details p {
+    margin: 10px 0;
+    color: #dcdbdb;
+  }
+  
+  .course-details strong {
+    color: #dbd4d4;
+  }
+  
+  /* Class records table */
+  .class-records {
+    margin-bottom: 30px;
+  }
+  
+  .class-records h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #d7d3d3;
+  }
+  
+  .class-records table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .class-records table th,
+  .class-records table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .class-records table th {
+    background-color: #898484;
+  }
+  
+  /* Form container */
+  .form-container {
+    margin-bottom: 30px;
+  }
+  
+  .form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #e6e2e2;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #dedede;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #7b7979;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  button:hover {
+    background-color: #969696;
+  }
+  
+  button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  /* Message styling */
+  .message {
+    text-align: center;
+    margin-top: 10px;
+    color: rgb(160, 161, 160);
+  }
+  
+  /* Go back button */
+  button.back-button {
+    background-color: #a6a7a8;
+    margin-top: 20px;
+  }
+  
+  button.back-button:hover {
+    background-color: #919396;
+  }
+  

@@ -1,0 +1,22 @@
+.user-attendance {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .class-details, .attendance-status {
+    margin-bottom: 20px;
+  }
+  
+  button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #464747;
+    color: white;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #4a4b4d;
+  }
+  

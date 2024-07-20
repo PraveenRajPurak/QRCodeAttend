@@ -1,0 +1,111 @@
+/* General styling */
+  
+  /* Form container */
+  .form-container {
+    margin-bottom: 30px;
+  }
+  
+  .form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ffffff;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #7f7f7f;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  button:hover {
+    background-color: #808280;
+  }
+  
+  button:disabled {
+    background-color: #595f65;
+    cursor: not-allowed;
+  }
+  
+  /* Message styling */
+  .message {
+    text-align: center;
+    margin-top: 10px;
+    color: rgb(220, 224, 220);
+  }
+  
+  /* Course records table */
+  .course-records {
+    margin-top: 30px;
+  }
+  
+  .course-records h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fffefe;
+  }
+  
+  .course-records table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .course-records table th,
+  .course-records table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .course-records table th {
+    background-color: #878383;
+  }
+  
+  .course-records table td span {
+    display: inline-block;
+    background-color: #727374;
+    padding: 3px 7px;
+    border-radius: 4px;
+    margin-right: 5px;
+    margin-top: 5px;
+  }
+  
+  .course-records p {
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  /* Go back button */
+  button.back-button {
+    background-color: #93969a;
+    margin-top: 20px;
+  }
+  
+  button.back-button:hover {
+    background-color: #828282;
+  }
+  

@@ -1,0 +1,113 @@
+
+  
+  /* Container for the entire section */
+
+  /* Form container */
+  .form-container {
+    margin-bottom: 30px;
+  }
+  
+  .form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ffffff;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #717171;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  button:hover {
+    background-color: #474747;
+  }
+  
+  button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  /* Message styling */
+  .message {
+    text-align: center;
+    margin-top: 10px;
+    color: rgb(223, 223, 223);
+  }
+  
+  /* Professor records table */
+  .professor-records {
+    margin-top: 30px;
+  }
+  
+  .professor-records h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #e1e1e1;
+  }
+  
+  .professor-records table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .professor-records table th,
+  .professor-records table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .professor-records table th {
+    background-color: #7f7f7f;
+  }
+  
+  .professor-records table td span {
+    display: inline-block;
+    background-color: #8a8a8a;
+    padding: 3px 7px;
+    border-radius: 4px;
+    margin-right: 5px;
+    margin-top: 5px;
+  }
+  
+  .professor-records p {
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  /* Go back button */
+  button.back-button {
+    background-color: #e7e7e7;
+    margin-top: 20px;
+  }
+  
+  button.back-button:hover {
+    background-color: #0056b3;
+  }
+  

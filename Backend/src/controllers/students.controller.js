@@ -82,6 +82,7 @@ const getCourses = asyncHandler(async (req, res) => {
         },
         {
             $project : {
+                _id : 1,
                 name : 1,
                 code : 1,
                 professorName : 1
@@ -139,9 +140,26 @@ const checkStudentAccountPresence = asyncHandler(async (req, res) => {
     return res.status(200).json({isPresent: true});
 })
 
+const getStudentdata = asyncHandler (async (req, res) => {
+
+    const student = await Student.findOne({
+        user: new mongoose.Types.ObjectId(req.user._id)
+    })
+
+    if(!student) {
+        throw new ApiError(500, "Student AC details could not be fetched.")
+    }
+
+    return res.status(200).
+    json(
+        new ApiResponse(200, "Student details fetched successfully", student)
+    )
+})
+
 export {
     setupStudent,
     getCourses,
     getClasses,
-    checkStudentAccountPresence
+    checkStudentAccountPresence,
+    getStudentdata
 }

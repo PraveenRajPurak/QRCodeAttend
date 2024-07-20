@@ -1,0 +1,37 @@
+.class-track {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .course-details, .classes {
+    margin-bottom: 20px;
+  }
+  
+  .class-button {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #525253;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .class-button:hover {
+    background-color: #0056b3;
+  }
+  
+  button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #515151;
+    color: white;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #5d5d5d;
+  }
+  
