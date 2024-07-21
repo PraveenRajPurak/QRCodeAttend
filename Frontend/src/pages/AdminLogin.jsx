@@ -119,12 +119,12 @@ function AdminLogin() {
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{' '}
-                <a
-                  href="/admin-signup"
+                <p
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  onClick={() => navigate("/admin-signup")}
                 >
                   Sign up
-                </a>
+                </p>
               </p>
             </form>
           </div>

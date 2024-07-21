@@ -121,12 +121,13 @@ function UserSignUp() {
 
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
                 Already have an account?{' '}
-                <a
-                  href="/user-login"
+                <p
+                  
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  onClick = {() => navigate('/user-login')}
                 >
                   Login
-                </a>
+                </p>
               </p>
               </>
             ) : (
@@ -154,7 +155,7 @@ function UserSignUp() {
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
                 Already have an account?{' '}
                 <p
-                  href="/user-login"
+                  
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   onClick = {() => navigate('/user-login')}
                 >

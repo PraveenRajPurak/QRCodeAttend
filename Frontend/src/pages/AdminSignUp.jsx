@@ -6,6 +6,7 @@ const Adminauth = getAuth(AdminFirebaseApp);
 import OtpInput from "otp-input-react";
 import { useState } from "react";
 import PhoneInput from "react-phone-input-2";
+import { useNavigate } from "react-router-dom";
 import "react-phone-input-2/lib/style.css";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
@@ -17,6 +18,8 @@ function AdminSignUp() {
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [user, setUser] = useState(null);
+
+  const navigate = useNavigate();
 
   function onCaptchVerify() {
     if (!window.recaptchaVerifier) {
@@ -116,12 +119,12 @@ function AdminSignUp() {
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
                 Already have an account?{' '}
-                <a
-                  href="/admin-login"
+                <p
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  onClick={() => navigate("/admin-login")}
                 >
                   Login
-                </a>
+                </p>
               </p>
               </>
             ) : (
@@ -147,12 +150,12 @@ function AdminSignUp() {
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
                 Already have an account?{' '}
-                <a
-                  href="/admin-login"
+                <p
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  onClick={() => navigate("/admin-login")}
                 >
                   Login
-                </a>
+                </p>
               </p>
               </>
             )}
