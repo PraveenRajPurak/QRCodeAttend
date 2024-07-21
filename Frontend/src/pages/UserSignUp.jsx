@@ -2,6 +2,7 @@ import { BsFillShieldLockFill, BsTelephoneFill } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
 import { UserFirebaseapp } from '../config/Userfirebase.config';
 import { getAuth } from 'firebase/auth';
+import { useNavigate } from "react-router-dom";
 const userauth = getAuth(UserFirebaseapp);
 import OtpInput from "otp-input-react";
 import { useState } from "react";
@@ -17,6 +18,8 @@ function UserSignUp() {
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [user, setUser] = useState(null);
+
+  const navigate = useNavigate();
 
   function onCaptchVerify() {
     if (!window.recaptchaVerifier) {
@@ -150,12 +153,13 @@ function UserSignUp() {
                 
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400 text-center">
                 Already have an account?{' '}
-                <a
+                <p
                   href="/user-login"
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  onClick = {() => navigate('/user-login')}
                 >
                   Login
-                </a>
+                </p>
               </p>
               </>
             )}
