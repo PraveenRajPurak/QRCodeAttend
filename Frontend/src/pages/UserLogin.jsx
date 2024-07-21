@@ -13,17 +13,19 @@ function UserLogin() {
     setLoading(true);
 
     try {
-      const response = await axios.post('/api/v1/user/login', {
+      const response = await axios.post(`https://qrcodeattend.onrender.com/api/v1/user/login`, {
         email,
         password,
       });
 
-      const { token, user } = response.data;
+      //const { token, user } = response.data;
+
+      const token = response.data.data.accessToken
 
       localStorage.setItem('authToken', token);
 
       const accountPresenceResponse = await axios.get(
-        '/api/v1/student/check-student-account-presence',
+        'https://qrcodeattend.onrender.com/api/v1/student/check-student-account-presence',
         {
           headers: {
             Authorization: `Bearer ${token}`,

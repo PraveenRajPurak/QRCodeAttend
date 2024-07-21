@@ -9,6 +9,8 @@ const UserDashboard = () => {
   const [enrollCode, setEnrollCode] = useState('');
   const [showEnrollForm, setShowEnrollForm] = useState(false);
 
+  const token = localStorage.getItem('authToken');
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,19 +19,33 @@ const UserDashboard = () => {
   }, []);
 
   const fetchStudentData = async () => {
-    try {
-      const response = await axios.get('/api/v1/student/get-student-data');
+    
+      const response = await axios.get('https://qrcodeattend.onrender.com/api/v1/student/get-student-data', 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+     // const token = localStorage.getItem('authToken');
       setStudent(response.data.message);
-      console.log(response.data.message);
-    } catch (error) {
-      console.error('Error fetching student data:', error);
-    }
+      console.log(response.data);
+   
   };
 
   const fetchCourses = async () => {
     try {
-      const response = await axios.get('/api/v1/student/get-courses');
+      const response = await axios.get('https://qrcodeattend.onrender.com/api/v1/student/get-courses',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+        
+      );
       setCourses(response.data.message);
+      console.log(response.data);
     } catch (error) {
       console.error('Error fetching courses:', error);
     }
@@ -38,7 +54,13 @@ const UserDashboard = () => {
   const handleEnroll = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/v1/course/enroll-in-a-course', { code: enrollCode });
+      const response = await axios.post('https://qrcodeattend.onrender.com/api/v1/course/enroll-in-a-course',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        { code: enrollCode });
       alert(response.data.data);
       fetchCourses(); 
       setShowEnrollForm(false);
