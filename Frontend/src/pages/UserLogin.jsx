@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import apiClient from '../config/apiClient';
 
 function UserLogin() {
   const [email, setEmail] = useState('');
@@ -14,7 +13,7 @@ function UserLogin() {
     setLoading(true);
 
     try {
-      const response = await apiClient.post('/api/v1/user/login', {
+      const response = await axios.post('/api/v1/user/login', {
         email,
         password,
       });
@@ -23,7 +22,7 @@ function UserLogin() {
 
       localStorage.setItem('authToken', token);
 
-      const accountPresenceResponse = await apiClient.get(
+      const accountPresenceResponse = await axios.get(
         '/api/v1/student/check-student-account-presence',
         {
           headers: {

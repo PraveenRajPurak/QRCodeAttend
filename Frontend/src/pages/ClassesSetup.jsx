@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/ClassesSetup.css';
-import apiClient from '../config/apiClient';
 
 const ClassesSetup = () => {
   const { courseId } = useParams();
@@ -17,7 +16,7 @@ const ClassesSetup = () => {
 
   const fetchCourseDetails = async () => {
     try {
-      const response = await apiClient.get(`/api/v1/course/get-course-details/${courseId}`);
+      const response = await axios.get(`/api/v1/course/get-course-details/${courseId}`);
       if (response.status === 200) {
         setCourseDetails(response.data.message);
       }
@@ -29,7 +28,7 @@ const ClassesSetup = () => {
 
   const fetchClasses = async () => {
     try {
-      const response = await apiClient.get(`/api/v1/course/get-classes/${courseId}`);
+      const response = await axios.get(`/api/v1/course/get-classes/${courseId}`);
       if (response.status === 200) {
         setClasses(response.data.message || []);
       }
@@ -42,7 +41,7 @@ const ClassesSetup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await apiClient.post('/api/v1/class/create-class', {
+      const response = await axios.post('/api/v1/class/create-class', {
         courseCode,
         date,
         startTime,

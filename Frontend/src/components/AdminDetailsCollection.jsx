@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import apiClient from '../config/apiClient';
 
 function AdminDetailsCollection({ phoneNumber } ) {
     const [formData, setFormData] = useState({
@@ -36,7 +35,7 @@ function AdminDetailsCollection({ phoneNumber } ) {
         }
 
         try {
-            const response = await apiClient.post('/api/v1/owner/register', data, {
+            const response = await axios.post('/api/v1/owner/register', data, {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             });
             console.log('Admin signed up successfully', response.data);

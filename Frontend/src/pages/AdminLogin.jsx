@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import apiClient from '../config/apiClient';
 
 function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -14,7 +13,7 @@ function AdminLogin() {
     setLoading(true);
 
     try {
-      const response = apiClient.post('/api/v1/owner/login', {
+      const response = await axios.post('/api/v1/owner/login', {
         email,
         password,
       });
@@ -23,7 +22,7 @@ function AdminLogin() {
 
       localStorage.setItem('AdminauthToken', token);
 
-      const accountPresenceResponse = apiClient.get(
+      const accountPresenceResponse = await axios.get(
         '/api/v1/college/check-college-ownership-presence',
         {
           headers: {

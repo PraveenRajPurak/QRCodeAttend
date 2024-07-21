@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/AdminProfessorSetup.css';
-import apiClient from '../config/apiClient';
 
 const AdminProfessorSetup = () => {
   const [profId, setProfId] = useState('');
@@ -15,7 +14,7 @@ const AdminProfessorSetup = () => {
 
   const fetchProfessors = async () => {
     try {
-      const response = await apiClient.get(`/api/v1/college/get-professors/${collegeId}`);
+      const response = await axios.get(`/api/v1/college/get-professors/${collegeId}`);
       if (response.status === 201) {
         setProfessors(response.data.data || []);
       }
@@ -28,7 +27,7 @@ const AdminProfessorSetup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await apiClient.post('/api/v1/college/setup-professor', {
+      const response = await axios.post('/api/v1/college/setup-professor', {
         profId,
         password,
         name

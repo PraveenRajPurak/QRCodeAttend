@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import apiClient from '../config/apiClient';
 
 function UserDetailsCollection(phoneNumber) {
 
@@ -39,7 +38,7 @@ function UserDetailsCollection(phoneNumber) {
         }
 
         try {
-            const response = await apiClient.post('/api/v1/user/register', form, {
+            const response = await axios.post('/api/v1/user/register', form, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             console.log('User signed up successfully', response.data);

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import apiClient from '../config/apiClient';
 
 const UserTrackAttendance = () => {
   const [attendanceRecords, setAttendanceRecords] = useState([]);
@@ -13,7 +12,7 @@ const UserTrackAttendance = () => {
 
   const trackSelfAttendance = async () => {
     try {
-      const response = await apiClient.post('/user/track-self-attendance');
+      const response = await axios.post('/user/track-self-attendance');
       setAttendanceRecords(response.data.data.attendanceRecord);
       console.log(response.data.data);
     } catch (error) {

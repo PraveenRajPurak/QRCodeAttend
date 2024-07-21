@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import QRCode from 'qrcode.react';
 import '../styles/ProfessorTakeAttendance.css';
-import apiClient from '../config/apiClient';
 
 const ProfessorTakeAttendance = () => {
   const { classId } = useParams();
@@ -16,7 +15,7 @@ const ProfessorTakeAttendance = () => {
   useEffect(() => {
     const fetchClassDetails = async () => {
       try {
-        const response = await apiClient.get(`/api/v1/class/get-class-code/${classId}`);
+        const response = await axios.get(`/api/v1/class/get-class-code/${classId}`);
         if (response.status === 200) {
           setClassDetails(response.data.message);
         }
@@ -28,7 +27,7 @@ const ProfessorTakeAttendance = () => {
 
     const fetchAttendanceRecords = async () => {
       try {
-        const response = await apiClient.get(`/api/v1/class/get-attendance/${classId}`);
+        const response = await axios.get(`/api/v1/class/get-attendance/${classId}`);
         if (response.status === 200) {
           setAttendanceRecords(response.data.message);
         }

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/AdminDashboard.css';
-import apiClient from '../config/apiClient';
 
 const AdminDashboard = () => {
   const [college, setCollege] = useState(null);
@@ -12,7 +11,7 @@ const AdminDashboard = () => {
 
   const fetchCollegeDetails = async () => {
     try {
-      const response = await apiClient.get('/api/v1/college/get-college');
+      const response = await axios.get('/api/v1/college/get-college');
       if (response.status === 200) {
         setCollege(response.data.message[0]);
         console.log("College : ", response.data.message[0]);
@@ -25,7 +24,7 @@ const AdminDashboard = () => {
 
   const fetchProfessors = async (collegeId) => {
     try {
-      const response = await apiClient.get(`/api/v1/college/get-professors/${collegeId}`);
+      const response = await axios.get(`/api/v1/college/get-professors/${collegeId}`);
       if (response.status === 201) {
         setProfessors(response.data.data || []);
         console.log("Professors : ", response.data.data);
@@ -38,7 +37,7 @@ const AdminDashboard = () => {
 
   const fetchCourses = async (collegeId) => {
     try {
-      const response = await apiClient.get(`/api/v1/college/courses-in-a-college/${collegeId}`);
+      const response = await axios.get(`/api/v1/college/courses-in-a-college/${collegeId}`);
       if (response.status === 200) {
         setCourses(response.data.message || []);
         console.log("Courses : ", response.data.message);

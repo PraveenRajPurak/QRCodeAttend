@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import apiClient from '../config/apiClient';
 
 import {
   Input,
@@ -23,7 +22,7 @@ function AdminCollegeSetup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await apiClient.post('/api/v1/college/setup-college', {
+      const response = await axios.post('/api/v1/college/setup-college', {
         name,
         location,
         website,

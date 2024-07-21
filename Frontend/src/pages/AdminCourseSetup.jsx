@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/AdminCourseSetup.css';
-import apiClient from '../config/apiClient';
 
 const AdminCourseSetup = () => {
   const [name, setName] = useState('');
@@ -15,7 +14,7 @@ const AdminCourseSetup = () => {
 
   const fetchCourses = async () => {
     try {
-      const response = await apiClient.get(`/api/v1/college/courses-in-a-college/${collegeId}`);
+      const response = await axios.get(`/api/v1/college/courses-in-a-college/${collegeId}`);
       if (response.status === 200) {
         setCourses(response.data.message);
       }
@@ -28,7 +27,7 @@ const AdminCourseSetup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await apiClient.post('/api/v1/course/setup-course', {
+      const response = await axios.post('/api/v1/course/setup-course', {
         name,
         code,
         profId

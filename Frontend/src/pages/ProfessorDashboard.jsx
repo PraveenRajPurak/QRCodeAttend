@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/ProfessorDashboard.css';
-import apiClient from '../config/apiClient';
 
 const ProfessorDashboard = () => {
   const [courses, setCourses] = useState([]);
@@ -10,7 +9,7 @@ const ProfessorDashboard = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await apiClient.get('/api/v1/professor/courses-taught-by-professor');
+        const response = await axios.get('/api/v1/professor/courses-taught-by-professor');
         if (response.status === 200) {
           setCourses(response.data.data);
         }
