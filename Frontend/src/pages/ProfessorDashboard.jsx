@@ -6,10 +6,18 @@ import '../styles/ProfessorDashboard.css';
 const ProfessorDashboard = () => {
   const [courses, setCourses] = useState([]);
   const navigate = useNavigate();
+
+  const proftoken = localStorage.getItem('ProfauthToken');
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('/api/v1/professor/courses-taught-by-professor');
+        const response = await axios.get('https://qrcodeattend.onrender.com/api/v1/professor/courses-taught-by-professor',
+          {
+            headers: {
+              Authorization: `Bearer ${proftoken}`,
+            },
+          }
+        );
         if (response.status === 200) {
           setCourses(response.data.data);
         }

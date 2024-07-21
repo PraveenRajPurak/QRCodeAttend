@@ -11,7 +11,13 @@ const AdminDashboard = () => {
 
   const fetchCollegeDetails = async () => {
     try {
-      const response = await axios.get('/api/v1/college/get-college');
+      const response = await axios.get('https://qrcodeattend.onrender.com/api/v1/college/get-college',
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('AdminauthToken')}`
+          }
+        }
+      );
       if (response.status === 200) {
         setCollege(response.data.message[0]);
         console.log("College : ", response.data.message[0]);
@@ -24,7 +30,13 @@ const AdminDashboard = () => {
 
   const fetchProfessors = async (collegeId) => {
     try {
-      const response = await axios.get(`/api/v1/college/get-professors/${collegeId}`);
+      const response = await axios.get(`/api/v1/college/get-professors/${collegeId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('AdminauthToken')}`
+          }
+        }
+      );
       if (response.status === 201) {
         setProfessors(response.data.data || []);
         console.log("Professors : ", response.data.data);
@@ -37,7 +49,13 @@ const AdminDashboard = () => {
 
   const fetchCourses = async (collegeId) => {
     try {
-      const response = await axios.get(`/api/v1/college/courses-in-a-college/${collegeId}`);
+      const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/college/courses-in-a-college/${collegeId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('AdminauthToken')}`
+          }
+        }
+      );
       if (response.status === 200) {
         setCourses(response.data.message || []);
         console.log("Courses : ", response.data.message);

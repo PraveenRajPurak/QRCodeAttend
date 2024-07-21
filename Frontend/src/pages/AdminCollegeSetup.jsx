@@ -22,12 +22,17 @@ function AdminCollegeSetup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/v1/college/setup-college', {
+      const response = await axios.post('https://qrcodeattend.onrender.com/api/v1/college/setup-college', {
         name,
         location,
         website,
         officeEmailId,
-      });
+      },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('AdminauthToken')}`,
+      },
+    });
       if (response.status === 200) {
         navigate('/user-dashboard');
       }

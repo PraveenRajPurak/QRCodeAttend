@@ -13,17 +13,17 @@ function AdminLogin() {
     setLoading(true);
 
     try {
-      const response = await axios.post('/api/v1/owner/login', {
+      const response = await axios.post('https://qrcodeattend.onrender.com/api/v1/owner/login', {
         email,
         password,
       });
 
-      const { token, owner } = response.data;
+      const token = response.data.data.owneraccessToken;
 
       localStorage.setItem('AdminauthToken', token);
 
       const accountPresenceResponse = await axios.get(
-        '/api/v1/college/check-college-ownership-presence',
+        'https://qrcodeattend.onrender.com/api/v1/college/check-college-ownership-presence',
         {
           headers: {
             Authorization: `Bearer ${token}`,

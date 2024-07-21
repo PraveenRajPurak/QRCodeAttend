@@ -91,7 +91,14 @@ const loginOwner = asyncHandler(async (req, res) => {
     .cookie("owneraccessToken", owneraccessToken, options)
     .cookie("ownerrefreshToken", ownerrefreshToken, options)
     .json(
-        new ApiResponse(200, "Owner logged in successfully", loggedInOwner)
+        new ApiResponse(200,
+            {
+            owner : loggedInOwner,
+            owneraccessToken,
+            ownerrefreshToken
+        },
+         "Owner logged in successfully"
+        )
     );
 });
 

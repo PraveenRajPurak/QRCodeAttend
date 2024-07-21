@@ -14,7 +14,13 @@ const AdminCourseSetup = () => {
 
   const fetchCourses = async () => {
     try {
-      const response = await axios.get(`/api/v1/college/courses-in-a-college/${collegeId}`);
+      const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/college/courses-in-a-college/${collegeId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('AdminauthToken')}`
+          }
+        }
+      );
       if (response.status === 200) {
         setCourses(response.data.message);
       }
@@ -27,11 +33,16 @@ const AdminCourseSetup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/v1/course/setup-course', {
+      const response = await axios.post('https://qrcodeattend.onrender.com/api/v1/course/setup-course', {
         name,
         code,
         profId
-      });
+      },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('AdminauthToken')}`
+      }
+    });
 
       if (response.status === 201) {
         setMessage('Course created successfully');

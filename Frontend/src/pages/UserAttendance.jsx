@@ -11,6 +11,8 @@ const UserAttendance = () => {
   const [isPresent, setIsPresent] = useState(false);
   const navigate = useNavigate();
 
+  // const token = localStorage.getItem('token');
+
   useEffect(() => {
     fetchClassDetails();
     checkAttendanceStatus();
@@ -18,7 +20,7 @@ const UserAttendance = () => {
 
   const fetchClassDetails = async () => {
     try {
-      const response = await axios.get(`/api/v1/class/get-class-code/${classId}`, {
+      const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/class/get-class-code/${classId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -32,7 +34,7 @@ const UserAttendance = () => {
 
   const checkAttendanceStatus = async () => {
     try {
-      const response = await axios.get(`/api/v1/class/get-attendance-of-a-student/${classId}`, {
+      const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/class/get-attendance-of-a-student/${classId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }

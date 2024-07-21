@@ -8,6 +8,8 @@ const UserClassTrack = () => {
   const [classes, setClasses] = useState([]);
   const navigate = useNavigate();
 
+  const token = localStorage.getItem('authToken');
+
   console.log("Course Id : ", courseId)
 
   useEffect(() => {
@@ -17,7 +19,13 @@ const UserClassTrack = () => {
 
   const fetchCourseDetails = async () => {
     try {
-      const response = await axios.get(`/api/v1/course/get-course-details/${courseId}`);
+      const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/course/get-course-details/${courseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setCourseDetails(response.data.message);
       console.log(response.data.message);
     } catch (error) {
@@ -27,7 +35,13 @@ const UserClassTrack = () => {
 
   const fetchClasses = async () => {
     try {
-      const response = await axios.get(`/api/v1/student/get-classes/${courseId}`);
+      const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/student/get-classes/${courseId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setClasses(response.data.message || []);
       console.log(response.data.message);
     } catch (error) {

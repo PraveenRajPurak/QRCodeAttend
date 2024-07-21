@@ -13,7 +13,7 @@ const CourseDetails = () => {
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
-        const response = await axios.get(`/api/v1/course/get-course-details/${courseId}`);
+        const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/course/get-course-details/${courseId}`);
         if (response.status === 200) {
           setCourse(response.data.message);
         }
@@ -25,7 +25,7 @@ const CourseDetails = () => {
 
     const fetchAttendanceRecords = async () => {
       try {
-        const response = await axios.get(`/api/v1/course/get-attendance/${courseId}`);
+        const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/course/get-attendance/${courseId}`);
         if (response.status === 200) {
           setAttendanceRecords(response.data.message);
         }

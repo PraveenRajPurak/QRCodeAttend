@@ -54,13 +54,12 @@ const UserDashboard = () => {
   const handleEnroll = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://qrcodeattend.onrender.com/api/v1/course/enroll-in-a-course',
-        {
+      const response = await axios.post('https://qrcodeattend.onrender.com/api/v1/course/enroll-in-a-course', 
+        { code: enrollCode },{
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
-        { code: enrollCode });
+        });
       alert(response.data.data);
       fetchCourses(); 
       setShowEnrollForm(false);

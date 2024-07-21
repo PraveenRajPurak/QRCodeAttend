@@ -16,7 +16,7 @@ const ClassesSetup = () => {
 
   const fetchCourseDetails = async () => {
     try {
-      const response = await axios.get(`/api/v1/course/get-course-details/${courseId}`);
+      const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/course/get-course-details/${courseId}`);
       if (response.status === 200) {
         setCourseDetails(response.data.message);
       }
@@ -28,7 +28,7 @@ const ClassesSetup = () => {
 
   const fetchClasses = async () => {
     try {
-      const response = await axios.get(`/api/v1/course/get-classes/${courseId}`);
+      const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/course/get-classes/${courseId}`);
       if (response.status === 200) {
         setClasses(response.data.message || []);
       }
@@ -41,12 +41,17 @@ const ClassesSetup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/v1/class/create-class', {
+      const response = await axios.post('https://qrcodeattend.onrender.com/api/v1/class/create-class', {
         courseCode,
         date,
         startTime,
         endTime
-      });
+      },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('OwnerauthToken')}`,
+      },
+    });
 
       if (response.status === 201) {
         setMessage('Class created successfully');

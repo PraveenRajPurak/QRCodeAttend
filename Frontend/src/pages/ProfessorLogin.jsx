@@ -13,14 +13,14 @@ function ProfessorLogin() {
     setLoading(true);
 
     try {
-      const response = await axios.post('/api/v1/professor/login', {
+      const response = await axios.post('https://qrcodeattend.onrender.com/api/v1/professor/login', {
         profId,
         password,
       });
 
       if(response.status === 200 ) {
-          const { token, professor } = response.data;
-          localStorage.setItem('ProfauthToken', token);
+          const  proftoken = response.data.data.profaccessToken;
+          localStorage.setItem('ProfauthToken', proftoken);
           navigate('/professor-dashboard');
       }
     } catch (error) {

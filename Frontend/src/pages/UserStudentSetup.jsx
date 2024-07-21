@@ -43,11 +43,17 @@ function UserStudentSetup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/api/v1/student/setup-student', {
+      const response = await axios.post('https://qrcodeattend.onrender.com/api/v1/student/setup-student', {
         enrollNo,
         institute_name: instituteName,
         batch,
-      });
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        },
+      }
+    );
       if (response.status === 201) {
         navigate('/user-dashboard');
       }

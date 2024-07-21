@@ -10,12 +10,20 @@ const ProfessorTakeAttendance = () => {
   const [attendanceRecords, setAttendanceRecords] = useState([]);
   const navigate = useNavigate();
 
+  const proftoken = localStorage.getItem('ProfauthToken');
+
   console.log("Class ID : ", classId);
 
   useEffect(() => {
     const fetchClassDetails = async () => {
       try {
-        const response = await axios.get(`/api/v1/class/get-class-code/${classId}`);
+        const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/class/get-class-code/${classId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${proftoken}`,
+            },
+          }
+        );
         if (response.status === 200) {
           setClassDetails(response.data.message);
         }
@@ -27,7 +35,13 @@ const ProfessorTakeAttendance = () => {
 
     const fetchAttendanceRecords = async () => {
       try {
-        const response = await axios.get(`/api/v1/class/get-attendance/${classId}`);
+        const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/class/get-attendance/${classId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${proftoken}`,
+            },
+          }
+        );
         if (response.status === 200) {
           setAttendanceRecords(response.data.message);
         }

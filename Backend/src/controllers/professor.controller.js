@@ -69,7 +69,12 @@ const loginProfessor = asyncHandler(async (req, res) => {
     .cookie("profaccessToken", profaccessToken, options)
     .cookie("profrefreshToken", profrefreshToken, options)
     .json(
-        new ApiResponse(200, "Login successful", loggedInProfessor)
+        new ApiResponse(200, 
+            {
+                prof : loggedInProfessor,
+                profaccessToken,
+                profrefreshToken
+            } , "Login successful")
     )
 });
 

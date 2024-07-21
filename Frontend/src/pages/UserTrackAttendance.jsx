@@ -12,7 +12,13 @@ const UserTrackAttendance = () => {
 
   const trackSelfAttendance = async () => {
     try {
-      const response = await axios.post('/user/track-self-attendance');
+      const response = await axios.post('https://qrcodeattend.onrender.com/user/track-self-attendance',
+        {
+          headers : {
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          }
+        },
+      );
       setAttendanceRecords(response.data.data.attendanceRecord);
       console.log(response.data.data);
     } catch (error) {
