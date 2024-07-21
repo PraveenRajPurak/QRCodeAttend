@@ -8,12 +8,14 @@ function UserLogin() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const API_URL = process.env.API_URL;
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const response = await axios.post('/api/v1/user/login', {
+      const response = await axios.post(`${API_URL}/api/v1/user/login`, {
         email,
         password,
       });
