@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/UserAttendance.css';
+import apiClient from '../config/apiClient';
 
 const UserAttendance = () => {
   const { classId } = useParams();
@@ -18,7 +19,7 @@ const UserAttendance = () => {
 
   const fetchClassDetails = async () => {
     try {
-      const response = await axios.get(`/api/v1/class/get-class-code/${classId}`, {
+      const response = await apiClient.get(`/api/v1/class/get-class-code/${classId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -32,7 +33,7 @@ const UserAttendance = () => {
 
   const checkAttendanceStatus = async () => {
     try {
-      const response = await axios.get(`/api/v1/class/get-attendance-of-a-student/${classId}`, {
+      const response = await apiClient.get(`/api/v1/class/get-attendance-of-a-student/${classId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -58,7 +59,7 @@ const UserAttendance = () => {
 
   const handleMarkAttendance = async (code) => {
     try {
-      const response = await axios.post(
+      const response = await apiClient.post(
         `/api/v1/attendance/mark-attendance/${classId}`,
         { code },
         {

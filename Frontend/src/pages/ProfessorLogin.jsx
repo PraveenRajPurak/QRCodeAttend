@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import apiClient from '../config/apiClient';
 
 function ProfessorLogin() {
   const [profId, setProfId] = useState('');
@@ -13,7 +14,7 @@ function ProfessorLogin() {
     setLoading(true);
 
     try {
-      const response = await axios.post('/api/v1/professor/login', {
+      const response = await apiClient.post('/api/v1/professor/login', {
         profId,
         password,
       });

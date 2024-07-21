@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import apiClient from '../config/apiClient';
 
 const UserClassTrack = () => {
   const { courseId } = useParams();
@@ -17,7 +18,7 @@ const UserClassTrack = () => {
 
   const fetchCourseDetails = async () => {
     try {
-      const response = await axios.get(`/api/v1/course/get-course-details/${courseId}`);
+      const response = await apiClient.get(`/api/v1/course/get-course-details/${courseId}`);
       setCourseDetails(response.data.message);
       console.log(response.data.message);
     } catch (error) {
@@ -27,7 +28,7 @@ const UserClassTrack = () => {
 
   const fetchClasses = async () => {
     try {
-      const response = await axios.get(`/api/v1/student/get-classes/${courseId}`);
+      const response = await apiClient.get(`/api/v1/student/get-classes/${courseId}`);
       setClasses(response.data.message || []);
       console.log(response.data.message);
     } catch (error) {

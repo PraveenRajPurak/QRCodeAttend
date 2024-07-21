@@ -11,6 +11,7 @@ import "react-phone-input-2/lib/style.css";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
 import UserDetailsCollection from "../components/UserDetailsCollection";
+import apiClient from "../config/apiClient";
 
 function UserSignUp() {
   const [otp, setOtp] = useState("");
