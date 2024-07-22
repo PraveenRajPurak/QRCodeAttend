@@ -71,9 +71,9 @@ const markAttendance = asyncHandler(async (req, res) => {
 
     console.log("Code received : ", code);
 
-    console.log("Code stored : ", class_.code);
+    console.log("Code stored : ", class_[0].code);
 
-    if(code !== class_.code) {
+    if(code !== class_[0].code) {
         throw new ApiError(400, "Code is not correct");
     }
 
@@ -81,7 +81,7 @@ const markAttendance = asyncHandler(async (req, res) => {
         class: classId,
         student : student._id,
         course : class_.course,
-        classCode : class_.code,
+        classCode : class_[0].code,
         date : new Date(),
         status : true
     })
