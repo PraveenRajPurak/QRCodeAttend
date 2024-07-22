@@ -49,7 +49,7 @@ const ClassesSetup = () => {
       },
     {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('OwnerauthToken')}`,
+        Authorization: `Bearer ${localStorage.getItem('AdminauthToken')}`,
       },
     });
 

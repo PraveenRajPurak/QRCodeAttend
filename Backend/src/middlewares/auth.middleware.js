@@ -72,17 +72,23 @@ export const verifyProfessorToken = asyncHandler(async (req, res, next) => {
     try {
         const accessToken = req.cookies?.profaccessToken || req.header("Authorization")?.replace("Bearer ", "");
 
+        console.log("Professor accessToken : ", accessToken);
+
         if(!accessToken) {
             throw new ApiError(401, "Invalid Token");
         }
 
         const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
 
+        console.log("Decoded : ", decoded);
+
         if(!decoded) {  
             throw new ApiError(401, "Invalid Token");
         }
 
         const professor = await Professor.findById(decoded._id).select("-password");
+
+        console.log("professor in the middleware: ", professor);
 
         if (!professor) {
             throw new ApiError(401, "Professor not found")

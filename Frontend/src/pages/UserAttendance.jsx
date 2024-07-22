@@ -61,11 +61,11 @@ const UserAttendance = () => {
   const handleMarkAttendance = async (code) => {
     try {
       const response = await axios.post(
-        `/api/v1/attendance/mark-attendance/${classId}`,
+        `https://qrcodeattend.onrender.com/api/v1/attendance/mark-attendance/${classId}`,
         { code },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`
           }
         }
       );

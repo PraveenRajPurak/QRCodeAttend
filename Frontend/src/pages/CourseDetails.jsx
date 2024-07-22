@@ -10,6 +10,8 @@ const CourseDetails = () => {
   const [classes, setClasses] = useState([]);
   const navigate = useNavigate();
 
+  const proftoken = localStorage.getItem('ProfauthToken');
+
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
@@ -37,7 +39,7 @@ const CourseDetails = () => {
 
     const fetchClasses = async () => {
       try {
-        const response = await axios.get(`/api/v1/course/get-classes/${courseId}`);
+        const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/course/get-classes/${courseId}`);
         if (response.status === 200) {
           setClasses(response.data.message || []);
         }
@@ -52,9 +54,30 @@ const CourseDetails = () => {
     fetchClasses();
   }, [courseId]);
 
-  const handleClassClick = (classId) => {
-    console.log("Class Id being sent : ",classId);
-    navigate(`/professor-take-attendance/${classId}`);
+  const handleClassClick = async (classId) => {
+
+    console.log("Class ID : ", classId);
+    console.log("Prof Token : ", proftoken);
+    try {
+      const response = await axios.post(
+        `https://qrcodeattend.onrender.com/api/v1/attendance/create-attendance/${classId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${proftoken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        navigate(`/professor-take-attendance/${classId}`);
+      } else {
+        console.error('Failed to make class regular:', response.data.message);
+        alert('Failed to make class regular. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error making class regular:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
 
   return (

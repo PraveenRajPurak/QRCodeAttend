@@ -30,7 +30,7 @@ const AdminDashboard = () => {
 
   const fetchProfessors = async (collegeId) => {
     try {
-      const response = await axios.get(`/api/v1/college/get-professors/${collegeId}`,
+      const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/college/get-professors/${collegeId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('AdminauthToken')}`
@@ -95,9 +95,9 @@ const AdminDashboard = () => {
       {college && (
         <div className="college-details">
           <h1>{college.name}</h1>
-          <p>Address: {college.Location}</p>
+          <p>Address: {college.location}</p>
           <p>Website: <a href={college.website} target="_blank" rel="noopener noreferrer">{college.website}</a></p>
-          <p>Official Email: {college.officialEmailId}</p>
+          <p>Official Email: {college.officeEmailId}</p>
         </div>
       )}
 
