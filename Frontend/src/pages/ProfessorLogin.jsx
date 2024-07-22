@@ -18,7 +18,7 @@ function ProfessorLogin() {
         password,
       });
 
-
+      console.log(response.data);
       const proftoken = response.data.data.profaccessToken;
       console.log("Prof Token: ", response.data);
       localStorage.setItem('ProfauthToken', proftoken);
