@@ -40,73 +40,60 @@ const markAttendance = asyncHandler(async (req, res) => {
 
     const student = await Student.findOne({
         user: new mongoose.Types.ObjectId(req.user._id)
-    })
+    });
 
-    if(!student) {
-        throw new ApiError(500, "Student AC details could not be fetched.")
+    if (!student) {
+        throw new ApiError(500, "Student AC details could not be fetched.");
     }
 
     const { classId } = req.params;
     const { code } = req.body;
 
-    if (!classId) { 
-       throw new ApiError(400, "Class id is required");
+    if (!classId) {
+        throw new ApiError(400, "Class id is required");
     }
 
-    const class_ = await Class.aggregate([
-        {$match: {
-            $and: [
-                { _id: new mongoose.Types.ObjectId(classId) },
-                { status: "Regular" }
-            ]
-        }
-    }
-    ])
+    const class_ = await Class.findOne({
+        _id: new mongoose.Types.ObjectId(classId),
+        status: "Regular"
+    });
 
-    console.log("Class : ", class_)
+    console.log("Class : ", class_);
 
     if (!class_) {
         throw new ApiError(404, "Class not found");
-    }   
+    }
 
     console.log("Code received : ", code);
 
-    console.log("Code stored : ", class_[0].code);
+    console.log("Code stored : ", class_.code);
 
-    if(code !== class_[0].code) {
+    if (code !== class_.code) {
         throw new ApiError(400, "Code is not correct");
     }
 
     const attendanceCreation = await Attendance.create({
         class: classId,
-        student : student._id,
-        course : class_.course,
-        classCode : class_[0].code,
-        date : new Date(),
-        status : true
-    })
-    
-    if(!attendanceCreation) {
-        throw new ApiError(500, "Attendance could not be marked.")
+        student: student._id,
+        course: class_.course,
+        classCode: class_.code,
+        date: new Date(),
+        status: true
+    });
+
+    if (!attendanceCreation) {
+        throw new ApiError(500, "Attendance could not be marked.");
     }
 
-    console.log("Attendance : ", attendanceCreation)
+    console.log("Attendance : ", attendanceCreation);
 
-    class_[0].attendances.push(attendanceCreation._id);
-    await class_.save(
-        { validateBeforeSave: false }
-    );
+    class_.attendances.push(attendanceCreation._id);
+    await class_.save({ validateBeforeSave: false });
 
     student.attendanceRecord.push(attendanceCreation._id);
-    await student.save(
-        { validateBeforeSave: false }
-    );
+    await student.save({ validateBeforeSave: false });
 
-    return res
-        .status(200)
-        .json(
-            new ApiResponse(200, "Attendance marked successfully", attendanceCreation )
-        )
+    return res.status(200).json(new ApiResponse(200, "Attendance marked successfully", attendanceCreation));
 
 });
 
