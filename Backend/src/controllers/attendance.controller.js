@@ -9,7 +9,7 @@ import mongoose from "mongoose";
 
 const takeAttendance = asyncHandler(async (req, res) => {
 
-    const { classId } = req.params;
+    const  classId  = req.params.classId;
     console.log("Class Id : ",classId)
 
     if (!classId) {
