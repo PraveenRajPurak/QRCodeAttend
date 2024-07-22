@@ -18,6 +18,8 @@ function AdminLogin() {
         password,
       });
 
+      console.log("Admin Login: ", response.data);
+
       const token = response.data.data.owneraccessToken;
 
       localStorage.setItem('AdminauthToken', token);
