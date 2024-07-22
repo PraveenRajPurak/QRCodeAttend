@@ -92,8 +92,8 @@ const markAttendance = asyncHandler(async (req, res) => {
 
     console.log("Attendance : ", attendanceCreation)
 
-    class_.attendances.push(attendanceCreation._id);
-    await class_.save(
+    class_[0].attendances.push(attendanceCreation._id);
+    await class_[0].save(
         { validateBeforeSave: false }
     );
 

@@ -38,7 +38,7 @@ const UserAttendance = () => {
     try {
       const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/class/get-attendance-of-a-student/${classId}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('authToken')}`
+          Authorization: `Bearer ${token}`
         }
       });
       setAttendanceStatus(response.data.message);
