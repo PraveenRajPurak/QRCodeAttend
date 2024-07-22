@@ -249,7 +249,11 @@ const getAttendanceRecordInaCourse = asyncHandler(async (req, res) => {
         {
             $addFields: {
                 attendancePercentage: {
-                    $multiply: [100, { $divide: ["$studentInfo.attendanceCount", "$classCount"] }]
+                    $cond: {
+                        if: { $eq: ["$classCount", 0] },
+                        then: 0,
+                        else: { $multiply: [100, { $divide: ["$studentInfo.attendanceCount", "$classCount"] }] }
+                    }
                 }
             }
         },

@@ -27,7 +27,7 @@ const CourseDetails = () => {
       try {
         const response = await axios.get(`https://qrcodeattend.onrender.com/api/v1/course/get-attendance/${courseId}`);
         if (response.status === 200) {
-          setAttendanceRecords(response.data.message);
+          setAttendanceRecords(response.data.message || []);
         }
       } catch (error) {
         console.error('Error fetching attendance records:', error);
@@ -39,7 +39,7 @@ const CourseDetails = () => {
       try {
         const response = await axios.get(`/api/v1/course/get-classes/${courseId}`);
         if (response.status === 200) {
-          setClasses(response.data.message);
+          setClasses(response.data.message || []);
         }
       } catch (error) {
         console.error('Error fetching classes:', error);
