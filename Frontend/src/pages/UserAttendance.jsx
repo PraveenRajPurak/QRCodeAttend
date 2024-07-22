@@ -11,6 +11,8 @@ const UserAttendance = () => {
   const [isPresent, setIsPresent] = useState(false);
   const navigate = useNavigate();
 
+  const token = localStorage.getItem('authToken');
+
   // const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -62,10 +64,10 @@ const UserAttendance = () => {
     try {
       const response = await axios.post(
         `https://qrcodeattend.onrender.com/api/v1/attendance/mark-attendance/${classId}`,
-        { code },
+        { code: code },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('authToken')}`
+            Authorization: `Bearer ${token}`
           }
         }
       );

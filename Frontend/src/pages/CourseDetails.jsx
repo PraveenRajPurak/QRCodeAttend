@@ -61,6 +61,7 @@ const CourseDetails = () => {
     try {
       const response = await axios.post(
         `https://qrcodeattend.onrender.com/api/v1/attendance/create-attendance/${classId}`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${proftoken}`,

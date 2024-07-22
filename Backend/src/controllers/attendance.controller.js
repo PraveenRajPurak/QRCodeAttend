@@ -69,6 +69,10 @@ const markAttendance = asyncHandler(async (req, res) => {
         throw new ApiError(404, "Class not found");
     }   
 
+    console.log("Code received : ", code);
+
+    console.log("Code stored : ", class_.code);
+
     if(code !== class_.code) {
         throw new ApiError(400, "Code is not correct");
     }
