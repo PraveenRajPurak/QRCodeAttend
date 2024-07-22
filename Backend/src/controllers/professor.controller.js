@@ -57,6 +57,10 @@ const loginProfessor = asyncHandler(async (req, res) => {
 
     const {profaccessToken, profrefreshToken} = await generateAccessandRefreshToken(professor._id);
 
+    console.log("professor access token : ", profaccessToken);
+
+    console.log("professor refresh token : ", profrefreshToken);
+
     const loggedInProfessor = await Professor.findById(professor._id).select("-password -refreshToken");
 
     const options = {

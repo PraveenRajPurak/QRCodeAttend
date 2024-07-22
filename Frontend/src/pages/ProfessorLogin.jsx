@@ -18,11 +18,12 @@ function ProfessorLogin() {
         password,
       });
 
-      if(response.status === 200 ) {
-          const  proftoken = response.data.data.profaccessToken;
-          localStorage.setItem('ProfauthToken', proftoken);
-          navigate('/professor-dashboard');
-      }
+
+      const proftoken = response.data.data.profaccessToken;
+      console.log("Prof Token: ", response.data);
+      localStorage.setItem('ProfauthToken', proftoken);
+      navigate('/professor-dashboard');
+
     } catch (error) {
       console.error('Login failed:', error);
       alert('Login failed. Please check your credentials and try again.');

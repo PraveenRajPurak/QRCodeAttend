@@ -8,6 +8,7 @@ const ProfessorDashboard = () => {
   const navigate = useNavigate();
 
   const proftoken = localStorage.getItem('ProfauthToken');
+
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -19,7 +20,7 @@ const ProfessorDashboard = () => {
           }
         );
         if (response.status === 200) {
-          setCourses(response.data.data);
+          setCourses(response.data.data || []);
         }
       } catch (error) {
         console.error('Error fetching courses:', error);
