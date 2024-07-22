@@ -112,7 +112,8 @@ const getClasses = asyncHandler(async (req, res) => {
     }
 
     const classes = await Class.find({
-        course: courseId
+        course: courseId,
+        status: "Regular"
     })
 
     if(!classes) {
