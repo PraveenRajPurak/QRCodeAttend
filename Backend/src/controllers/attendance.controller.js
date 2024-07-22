@@ -53,7 +53,15 @@ const markAttendance = asyncHandler(async (req, res) => {
        throw new ApiError(400, "Class id is required");
     }
 
-    const class_ = await Class.findById(classId);
+    const class_ = await Class.aggregate([
+        {$match: {
+            $and: [
+                { _id: new mongoose.Types.ObjectId(classId) },
+                { status: "Regular" }
+            ]
+        }
+    }
+    ])
 
     console.log("Class : ", class_)
 
