@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Html5QrcodeScanner } from 'html5-qrcode';
+import QrScanner from 'qr-scanner';
 import '../styles/UserAttendance.css';
 
 const UserAttendance = () => {
@@ -10,6 +10,7 @@ const UserAttendance = () => {
   const [attendanceStatus, setAttendanceStatus] = useState('');
   const [isPresent, setIsPresent] = useState(false);
   const navigate = useNavigate();
+  const videoRef = useRef(null);
 
   const token = localStorage.getItem('authToken');
 
@@ -51,26 +52,6 @@ const UserAttendance = () => {
     }
   };
 
-  const handleQRCodeScanSuccess = (decodedText, decodedResult) => {
-    console.log(`Code matched: ${decodedText}`, decodedResult);
-    handleMarkAttendance(decodedText);
-    html5QrcodeScanner.clear();
-  };
-
-  const handleQRCodeScanError = (error) => {
-    console.warn(`QR code scan error: ${error}`);
-  };
-
-  const initiateQrScanner = () => {
-    const html5QrcodeScanner = new Html5QrcodeScanner(
-      "reader",
-      { fps: 10, qrbox: { width: 250, height: 250 } },
-      false
-    );
-
-    html5QrcodeScanner.render(handleQRCodeScanSuccess, handleQRCodeScanError);
-  };
-
   const handleMarkAttendance = async (code) => {
     try {
       const response = await axios.post(
@@ -89,6 +70,27 @@ const UserAttendance = () => {
       console.error('Error marking attendance:', error);
     }
   };
+
+  useEffect(() => {
+    const qrScanner = new QrScanner(
+      videoRef.current,
+      (result) => {
+        console.log('Decoded QR code:', result);
+        handleMarkAttendance(result.data);
+        qrScanner.stop(); // Stop scanning after successful scan
+      },
+      {
+        onDecodeError: (error) => {
+          console.error('Error decoding QR code:', error);
+        },
+      }
+    );
+    qrScanner.start();
+
+    return () => {
+      qrScanner.stop();
+    };
+  }, []);
 
   return (
     <div className="user-attendance">
@@ -112,11 +114,10 @@ const UserAttendance = () => {
         ) : (
           <div>
             <p>You are currently marked as {attendanceStatus}</p>
-            <button onClick={initiateQrScanner}>Scan QR Code</button>
+            <video ref={videoRef} style={{ width: '100%' }} />
           </div>
         )}
       </div>
-      <div id="reader" style={{ width: "500px", margin: "auto" }}></div>
       <button onClick={() => navigate('/user-dashboard')}>Back to Dashboard</button>
     </div>
   );
