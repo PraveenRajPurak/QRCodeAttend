@@ -13,12 +13,20 @@ const setupCollege = asyncHandler(async (req, res) => {
     const { name, location, website, officeEmailId } = req.body
     const owner = req.owner._id
 
+    let bannerFilePath = "";
+
+    if(req.file) {
+        bannerFilePath = req.file.path
+    }
+    const banner = await uploadOnCloudinary(bannerFilePath);
+
     const college = await College.create({
         name,
         location,
         website,
         officeEmailId,
-        owner
+        owner,
+        banner : banner.url || ""
     })
 
     if (!college) {

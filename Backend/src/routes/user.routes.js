@@ -11,7 +11,8 @@ import {
     updateEmail,
     updatePassword,
     updateAvatar,
-    trackselfAttendance
+    trackselfAttendance,
+    localityValidator
 } 
 from "../controllers/user.controller.js";
 
@@ -36,5 +37,7 @@ router.route("/update-password").post(verifyUserToken, updatePassword);
 router.route("/update-avatar").post(verifyUserToken, upload.single("avatar"), updateAvatar);
 
 router.route("/track-self-attendance").post(verifyUserToken, trackselfAttendance);
+
+router.route("/locality-validator").post(verifyUserToken, localityValidator);
 
 export default router

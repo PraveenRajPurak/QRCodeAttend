@@ -19,6 +19,9 @@ const collegeSchema = new Schema({
         required : true,
         match: [/.+\@.+\..+/, 'Please fill a valid email address']
     },
+    banner : {
+        type : String 
+    },
     owner : {
         type : Schema.Types.ObjectId,
         ref : "Owner",

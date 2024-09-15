@@ -2,6 +2,7 @@ import { Router } from "express";
 import { verifyOwnerToken } from "../middlewares/auth.middleware.js";
 import { verifyProfessorToken } from "../middlewares/auth.middleware.js";
 import { verifyUserToken } from "../middlewares/auth.middleware.js";
+import {upload} from "../middlewares/multer.middleware.js";
 
 import {
     setupCollege,
@@ -16,7 +17,7 @@ import {
 
 const router = Router();
 
-router.route("/setup-college").post(verifyOwnerToken, setupCollege);
+router.route("/setup-college").post(verifyOwnerToken,upload.single("banner"), setupCollege);
 router.route("/get-students/:collegeId").get(verifyOwnerToken, getStudentsRecords);
 router.route("/get-professors/:collegeId").get(verifyOwnerToken, getProfessorsRecords);
 router.route("/setup-professor").post(verifyOwnerToken, setupProfessor);

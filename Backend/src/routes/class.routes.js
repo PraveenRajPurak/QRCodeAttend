@@ -8,8 +8,8 @@ import {
     getStudentsInaClass,
     getAttendanceRecordFortheClass,
     getAttendanceofaStudent,
-    getClassCode
-    
+    getClassCode,
+    createClassRoom
 } from "../controllers/class.controller.js";
 
 const router = Router();
@@ -19,6 +19,7 @@ router.route("/get-students/:classId").get(getStudentsInaClass);
 router.route("/get-attendance/:classId").get(getAttendanceRecordFortheClass);
 router.route("/get-attendance-of-a-student/:classId").get(verifyUserToken, getAttendanceofaStudent);
 router.route("/get-class-code/:classId").get(getClassCode);
+router.route("/create-classroom").post(verifyOwnerToken, createClassRoom);
 
 export default router;
 

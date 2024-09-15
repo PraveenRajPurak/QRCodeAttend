@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { Attendance } from "../models/attendance.mjs";
 import { Student } from "../models/student.mjs";
+import { ClassRoom } from "../models/classroom.mjs";
 
 const generatedCodes = new Set();
 
@@ -22,7 +23,7 @@ function generateUniqueCode() {
 }
 
 const createClass = asyncHandler(async (req, res) => {
-    const { courseCode, date, startTime, endTime } = req.body;
+    const { courseCode, date, startTime, endTime, classroom } = req.body;
     // CourseCode is taken as input to find out the id of the course this class belongs to
     const course = await Course.findOne(
         {
@@ -34,6 +35,14 @@ const createClass = asyncHandler(async (req, res) => {
         throw new ApiError(404, "Course not found");
     }
 
+    const classRoom_ = await ClassRoom.findOne({
+        name : classroom
+    })
+
+    if(!classRoom_) {
+        throw new ApiError(404, "Classroom not found");
+    }
+
     const classCode = generateUniqueCode();
 
     const classCreation = await Class.create({
@@ -41,7 +50,8 @@ const createClass = asyncHandler(async (req, res) => {
         course: new mongoose.Types.ObjectId(course._id),
         date,
         startTime,
-        endTime
+        endTime,
+        classRoom: new mongoose.Types.ObjectId(classRoom_._id)
     })
 
     if (!classCreation) {
@@ -63,6 +73,40 @@ const createClass = asyncHandler(async (req, res) => {
         )
 
 });
+
+const createClassRoom = asyncHandler (async (req,res) => {
+    
+    const {name, longitude, latitude, altitude, radius} = req.body;
+
+    const owner_id = new mongoose.Types.ObjectId(req.owner._id)
+
+    const intitute_Info = await College.findOne({
+        owner : owner_id
+    })
+
+    console.log("Intitute Info : ", intitute_Info);
+
+    if(!intitute_Info) {
+        throw new ApiError(404, "College not found! Invalid Request");
+    }
+
+    const classRoomCreation = await ClassRoom.create({
+        name,
+        intitute: intitute_Info._id,
+        longitude,
+        latitude,
+        altitude,
+        radius
+    })
+
+    if(!classRoomCreation) {
+        throw new ApiError(400, "Something went wrong in class creation");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, "Class created successfully", classRoomCreation)
+    )
+})
 
 const getStudentsInaClass = asyncHandler(async (req, res) => {
 
@@ -225,5 +269,6 @@ export {
     getStudentsInaClass,
     getAttendanceRecordFortheClass,
     getAttendanceofaStudent,
-    getClassCode
+    getClassCode,
+    createClassRoom
 };

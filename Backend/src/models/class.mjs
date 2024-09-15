@@ -26,6 +26,10 @@ const classSchema = new Schema({
         type : String,
         required : true
     },
+    classRoom :{
+        type : Schema.Types.ObjectId,
+        ref : "ClassRoom"
+    },
     attendances : [
         {
             type : Schema.Types.ObjectId,
