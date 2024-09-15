@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import { Attendance } from "../models/attendance.mjs";
 import { Student } from "../models/student.mjs";
 import { ClassRoom } from "../models/classroom.mjs";
+import { College } from "../models/college.mjs";
 
 const generatedCodes = new Set();
 
@@ -78,10 +79,8 @@ const createClassRoom = asyncHandler (async (req,res) => {
     
     const {name, longitude, latitude, altitude, radius} = req.body;
 
-    const owner_id = new mongoose.Types.ObjectId(req.owner._id)
-
     const intitute_Info = await College.findOne({
-        owner : owner_id
+        owner : new mongoose.Types.ObjectId(req.owner._id), 
     })
 
     console.log("Intitute Info : ", intitute_Info);
