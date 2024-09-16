@@ -447,7 +447,7 @@ const localityValidator = asyncHandler(async (req, res, next) => {
     const cr_latitude_in_rad = toRadians(latitude);
     const cr_longitude_in_rad = toRadians(longitude);
 
-    const difference_altitute = user_altitude - altitude;
+    const difference_altitute = Math.abs(user_altitude - altitude);
 
     console.log("Difference Altitude : ", difference_altitute);
 
