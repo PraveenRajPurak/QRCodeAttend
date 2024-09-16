@@ -421,6 +421,8 @@ const localityValidator = asyncHandler(async (req, res, next) => {
     
     const { classId, user_latitude, user_longitude, user_altitude } = req.body;
 
+    console.log("Information from User : ","Class Id : ", classId, "Latitude : ", user_latitude, "Longitude : ", user_longitude, "Altitude : ", user_altitude);
+
     if(!classId || !user_latitude || !user_longitude || !user_altitude) {
         throw new ApiError(400, "All fields are required");
     }
@@ -437,6 +439,8 @@ const localityValidator = asyncHandler(async (req, res, next) => {
 
     const { longitude, latitude, altitude, radius } = classRoom_;
 
+    console.log("Classroom Information : ","Longitude : ", longitude, "Latitude : ", latitude, "Altitude : ", altitude, "Radius : ", radius);
+
     const user_latitude_in_rad = toRadians(user_latitude);
     const user_longitude_in_rad = toRadians(user_longitude);
 
@@ -445,14 +449,20 @@ const localityValidator = asyncHandler(async (req, res, next) => {
 
     const difference_altitute = user_altitude - altitude;
 
+    console.log("Difference Altitude : ", difference_altitute);
+
     if(difference_altitute > 3){
         valid = false;
+        console.log("Check if user is in the same altitude. "," Value of value variable : ", valid);
         return res.status(200).json(
             new ApiResponse(200, "User is not in the same altitude as the classroom", valid)
         )
     }
 
     const distance = haversine(user_latitude_in_rad, user_longitude_in_rad, cr_latitude_in_rad, cr_longitude_in_rad);
+
+    console.log("Distance : ", distance);
+
     if(distance > radius) {
         valid = false;
         return res.status(200).json(
