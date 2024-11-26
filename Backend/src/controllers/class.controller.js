@@ -24,7 +24,7 @@ function generateUniqueCode() {
 }
 
 const createClass = asyncHandler(async (req, res) => {
-    const { courseCode, date, startTime, endTime, classroom } = req.body;
+    const { courseCode, date, startTime, endTime } = req.body;
     // CourseCode is taken as input to find out the id of the course this class belongs to
     const course = await Course.findOne(
         {
@@ -36,13 +36,13 @@ const createClass = asyncHandler(async (req, res) => {
         throw new ApiError(404, "Course not found");
     }
 
-    const classRoom_ = await ClassRoom.findOne({
-        name : classroom
-    })
+    // const classRoom_ = await ClassRoom.findOne({
+    //     name : classroom
+    // })
 
-    if(!classRoom_) {
-        throw new ApiError(404, "Classroom not found");
-    }
+    // if(!classRoom_) {
+    //     throw new ApiError(404, "Classroom not found");
+    // }
 
     const classCode = generateUniqueCode();
 
@@ -52,7 +52,7 @@ const createClass = asyncHandler(async (req, res) => {
         date,
         startTime,
         endTime,
-        classRoom: new mongoose.Types.ObjectId(classRoom_._id)
+        // classRoom: new mongoose.Types.ObjectId(classRoom_._id)
     })
 
     if (!classCreation) {
